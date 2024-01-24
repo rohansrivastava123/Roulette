@@ -1,0 +1,102 @@
+.mainpanelgrid {
+  width: 100%;
+  position: absolute;
+  bottom: 12vh;
+  height: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.grid {
+  width: 40%;
+  height: 25vh;
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-columns: repeat(14, 1fr);
+  /* border: 2px solid grey; */
+  /* border-radius: 15px; */
+  overflow: hidden;
+}
+.dozen_select{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* border: 1px solid red; */
+  grid-column: 2/14;
+  grid-template-rows: 3;
+}
+.text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1vw;
+  cursor: pointer;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  border:2px solid grey;
+}
+.diff_select{
+    display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-column: 2/14;
+  grid-template-rows: 6;
+}
+.street_select{
+  display: grid;
+  grid-row: 1/4;
+  grid-column: 14;
+  grid-template-rows: repeat(3,1fr);
+
+}
+.zerochip {
+  grid-row-start: 1;
+  grid-row-end: 4;
+  display: flex;
+  border:2px solid grey;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(56, 52, 52);
+  color: white;
+  font-weight: 600;
+  background-color: rgb(13, 168, 13);
+  font-size: 1.2vw;
+  cursor: pointer;
+}
+.chips1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(68, 68, 68);
+  color: white;
+  font-weight: 600;
+  background-color: rgb(179, 15, 15);
+  font-size: 1vw;
+  cursor: pointer;
+}
+.chips2 {
+  display: flex;
+  font-size: 1vw;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  color: white;
+  font-weight: 600;
+  background-color: rgb(63, 63, 92);
+  cursor: pointer;
+}
+
+.gridchip {
+  width: 2vw;
+}
+.chipscontainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.chipvalues{
+    position: absolute;
+    color:white;
+    font-weight: 700;
+    font-size: .6vw;
+    text-align: center;
+    /* top:30px; */
+}

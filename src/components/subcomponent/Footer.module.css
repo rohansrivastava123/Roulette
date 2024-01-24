@@ -1,0 +1,56 @@
+.footer {
+  position: absolute;
+  width:100%;
+  bottom:.5vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.bet_info{
+    display: flex;
+    text-align: center;
+    justify-content:left;
+    width:23%;
+    gap:10%;
+    font-family:'Courier New', Courier, monospace;
+    font-size: 1vw;
+    font-weight: 450;
+}
+.betinfotext{
+    margin: 1vw;
+}
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.2vw solid white;
+  position: relative;
+  border-radius: 50%;
+  padding: 0.2vw;
+}
+.chippanel {
+  display: flex;
+  justify-content: center;
+  /* margin-top: 1rem; */
+  gap: 4vw;
+}
+.chippanel img {
+  width: 4vw;
+  height: auto;
+  cursor: pointer;
+}
+.stats{
+    width:25%;
+}
+.chipscontainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.chipvalues{
+    position: absolute;
+    bottom:35%;
+    color:white;
+    font-weight: 700;
+    font-size: 1.5vw;
+}
