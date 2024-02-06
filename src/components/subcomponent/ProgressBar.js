@@ -8,26 +8,27 @@ import { setBal_bet } from "../../store/slices/totalBalance";
 import { setMsg } from "../../store/slices/GameProgress";
 import { setTot_bet } from "../../store/slices/betAmount";
 import { resetPanel } from "../../store/slices/chipPanelArray";
+import { setWinNum } from "../../store/slices/WinningNumber";
 export default function ProgressBar() {
   const dispatch = useDispatch();
   const timer = useSelector((state) => {
     return state.time;
   });
+  const randomNum = Math.floor(Math.random() * 37);
   const barMsg = useSelector((state) => state.currMsg);
   const currAmtBet = useSelector((state) => state.tot_bet);
+  const arr = useSelector((state) => state.ChipArr);
+  const winnum = useSelector((state) => state.WinNum);
   useEffect(() => {
     if (timer === 0) {
       dispatch(changechip(null));
       dispatch(toggle(false));
       dispatch(setMsg("BETS CLOSED"));
-      dispatch(resetPanel());
-
       setTimeout(() => {
         dispatch(setMsg("SPINNING"));
-        dispatch(setBal_bet(currAmtBet));
-        dispatch(setTot_bet(0));
-
+        dispatch(setWinNum(randomNum));
         setTimeout(() => {
+          dispatch(resetPanel());
           dispatch(changetime(15));
           dispatch(setMsg("PLEASE PLACE YOUR BETS -"));
           dispatch(toggle(true));
@@ -42,9 +43,7 @@ export default function ProgressBar() {
       if (timer === 7) {
         dispatch(setMsg("LAST BETS - "));
       }
-      //console.log(timer);
     }, 1000);
-
     return () => clearInterval(intervalId);
   }, [timer]);
 

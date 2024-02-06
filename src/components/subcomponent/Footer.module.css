@@ -1,23 +1,23 @@
 .footer {
   position: absolute;
-  width:100%;
-  bottom:.5vh;
+  width: 100%;
+  bottom: 0.5vh;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
-.bet_info{
-    display: flex;
-    text-align: center;
-    justify-content:left;
-    width:23%;
-    gap:10%;
-    font-family:'Courier New', Courier, monospace;
-    font-size: 1vw;
-    font-weight: 450;
+.bet_info {
+  display: flex;
+  text-align: center;
+  justify-content: left;
+  width: 23%;
+  gap: 10%;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1vw;
+  font-weight: 450;
 }
-.betinfotext{
-    margin: 1vw;
+.betinfotext {
+  margin: 1vw;
 }
 .chip {
   display: flex;
@@ -39,18 +39,18 @@
   height: auto;
   cursor: pointer;
 }
-.stats{
-    width:25%;
+.stats {
+  width: 25%;
 }
-.chipscontainer{
+.chipscontainer {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.chipvalues{
-    position: absolute;
-    bottom:35%;
-    color:white;
-    font-weight: 700;
-    font-size: 1.5vw;
+.chipvalues {
+  position: absolute;
+  /* bottom: 35%; */
+  color: white;
+  font-weight: 700;
+  font-size: 1vw;
 }

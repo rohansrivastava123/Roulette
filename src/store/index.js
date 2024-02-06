@@ -7,6 +7,8 @@ import betAmount from "./slices/betAmount";
 import balanceAmount from "./slices/totalBalance";
 import GameProgress from "./slices/GameProgress";
 import chipPanelArray from "./slices/chipPanelArray";
+import winningNumber from "./slices/WinningNumber";
+import ModalToggle from "./slices/ModalToggle";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +20,8 @@ const store = configureStore({
     bal_bet: balanceAmount,
     currMsg: GameProgress,
     ChipArr: chipPanelArray,
+    WinNum: winningNumber,
+    isModal: ModalToggle,
   },
 });
 

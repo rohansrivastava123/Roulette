@@ -57,7 +57,6 @@ const chipPanelArray = createSlice({
     resetPanel: (state) => {
       return initialState.slice();
     },
-    // Add other actions as needed
   },
 });
 

@@ -1,99 +1,97 @@
-
-:root{
-    --fontfamily:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+:root {
+  --fontfamily: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
-.main{
-    background: linear-gradient(to top, #7179a7, #080808);
-    height:100vh;
-    width:100vw;
+.main {
+  background: linear-gradient(to top, #4cc2e6, #000000dc);
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
 }
-.navbar{    
-    padding:2vw;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.navbar {
+  padding: 2vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.lobbybtn{
-    border: 4px solid rgb(255,184,0,1);
-    color: white;
-    width:3vw;
-    border-radius: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: var(--fontfamily);
-    font-size: 1vw;
-    font-weight: 400;
-    cursor: pointer;
-    padding:0 1vw;
+.lobbybtn {
+  border: 4px solid rgb(255, 184, 0, 1);
+  color: white;
+  width: 3vw;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--fontfamily);
+  font-size: 1vw;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 0 1vw;
 }
-.lobbybtn:hover{
-    background-color: #ff912a;
-    border: .2em solid #ff912a;
-    color: #050505;
+.lobbybtn:hover {
+  background-color: #ff912a;
+  border: 0.2em solid #ff912a;
+  color: #050505;
 }
-.textnavinfo{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+.textnavinfo {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
-.timetext{
-    color: rgb(201, 185, 185);
-    width:200px;
-    margin-left: 1vw;
-    font-size: 1vw;
+.timetext {
+  color: rgb(201, 185, 185);
+  width: 200px;
+  margin-left: 1vw;
+  font-size: 1vw;
 }
-.navlefttext{
-    color: aliceblue;
-    font-size: 2vw;
-    margin-left: 1vw;
-    font-family:var(--fontfamily)
+.navlefttext {
+  color: aliceblue;
+  font-size: 2vw;
+  margin-left: 1vw;
+  font-family: var(--fontfamily);
 }
-.leftpart img{
-    width:1.2vw;
-    border: 0.3vw solid rgb(94, 86, 86);
-    border-radius: 50%;
-    padding:.4rem;
-    cursor: pointer;
+.leftpart img {
+  width: 1.2vw;
+  border: 0.3vw solid rgb(94, 86, 86);
+  border-radius: 50%;
+  padding: 0.4rem;
+  cursor: pointer;
 }
-.leftpart{
-    display:flex;
-    align-items: center;
+.leftpart {
+  display: flex;
+  align-items: center;
 }
-.rightpart img{
-    width:2vw;
-    height: auto;
-    border: .3vw solid rgb(94, 86, 86);
-    border-radius: 50%;
-    cursor: pointer;
+.rightpart img {
+  width: 2vw;
+  height: auto;
+  border: 0.3vw solid rgb(94, 86, 86);
+  border-radius: 50%;
+  cursor: pointer;
 }
-.rightpart img:hover{
-    border: .3vw solid #ff912a;
+.rightpart img:hover {
+  border: 0.3vw solid #ff912a;
 }
-.rightpart{
-    display: flex;
-    gap:1vw;
+.rightpart {
+  display: flex;
+  gap: 1vw;
 }
-.maintextbox
-{
-    display: flex;
-    justify-content: flex-end;
-    padding: 0 2vw;
+.maintextbox {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 2vw;
 }
-.textbox{
-    height:3.5vh;
-    width:13vw;
-    border-radius: 10px;
-    border: .2vw solid white;
-    background-color: rgb(94, 86, 86);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}   
-.textbox::placeholder{
-    color:rgb(201, 185, 185);
-    padding:.5vw;
-    width:10vw;
-    font-size: 1.3em;
-   
+.textbox {
+  height: 3.5vh;
+  width: 13vw;
+  border-radius: 10px;
+  border: 0.2vw solid white;
+  background-color: rgb(94, 86, 86);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.textbox::placeholder {
+  color: rgb(201, 185, 185);
+  padding: 0.5vw;
+  width: 10vw;
+  font-size: 1.3em;
 }
