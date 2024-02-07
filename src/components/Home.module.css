@@ -1,19 +1,22 @@
+body {
+  overflow: hidden;
+}
 * {
   margin: 0;
   padding: 0;
 }
 .main {
   background: linear-gradient(to right, #131a3d, #1f1886);
-    height:100vh;
-    width:100vw;
+  height: 100vh;
+  width: 100vw;
   overflow: hidden;
   text-align: center;
 }
-button{
+button {
   padding: 2vh 6vh;
-  margin:10vh 0;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size:6vw;
+  margin: 10vh 0;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 6vw;
   background: hsl(340deg 100% 32%);
   border-radius: 12px;
   border: none;

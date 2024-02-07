@@ -1,14 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = [];
+
 const Todayhistory = createSlice({
-  name: "changetime",
-  initialState: null,
+  name: "todayhistory",
+  initialState,
   reducers: {
-    changetime(state, action) {
-      return action.payload;
+    set: (state, action) => {
+      console.log(action.payload);
+      state.push(action.payload);
     },
   },
 });
 
-export default Timerstate.reducer;
-export const { changetime } = Timerstate.actions;
+export const { set } = Todayhistory.actions;
+export default Todayhistory.reducer;
