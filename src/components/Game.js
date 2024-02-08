@@ -15,6 +15,7 @@ import HistoryModal from "./subcomponent/HistoryModal.js";
 
 export default function Game() {
   const currTime = new Date();
+  // console.log("gamejs");
   const barMsg = useSelector((state) => state.currMsg);
   const dispatch = useDispatch();
   const isModal = useSelector((state) => state.isModal);

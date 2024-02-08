@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./HistoryModal.module.css";
 import { useSelector } from "react-redux";
 export default function HistoryModal() {

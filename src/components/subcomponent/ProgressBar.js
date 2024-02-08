@@ -9,6 +9,7 @@ import { setMsg } from "../../store/slices/GameProgress";
 import { setTot_bet } from "../../store/slices/betAmount";
 import { resetPanel } from "../../store/slices/chipPanelArray";
 import { setWinNum } from "../../store/slices/WinningNumber";
+import { resetPanel_d } from "../../store/slices/DozenSelect";
 export default function ProgressBar() {
   const dispatch = useDispatch();
   const timer = useSelector((state) => {
@@ -29,6 +30,7 @@ export default function ProgressBar() {
         dispatch(setWinNum(randomNum));
         setTimeout(() => {
           dispatch(resetPanel());
+          dispatch(resetPanel_d());
           dispatch(changetime(15));
           dispatch(setMsg("PLEASE PLACE YOUR BETS -"));
           dispatch(toggle(true));

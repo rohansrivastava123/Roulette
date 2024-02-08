@@ -10,6 +10,7 @@ import chipPanelArray from "./slices/chipPanelArray";
 import winningNumber from "./slices/WinningNumber";
 import ModalToggle from "./slices/ModalToggle";
 import TodayHistory from "./slices/TodayHistory";
+import DozenSelect from "./slices/DozenSelect";
 
 const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ const store = configureStore({
     WinNum: winningNumber,
     isModal: ModalToggle,
     historyarr: TodayHistory,
+    dozenArr: DozenSelect,
   },
 });
 

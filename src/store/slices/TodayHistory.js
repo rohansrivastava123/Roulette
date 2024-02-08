@@ -7,7 +7,6 @@ const Todayhistory = createSlice({
   initialState,
   reducers: {
     set: (state, action) => {
-      console.log(action.payload);
       state.push(action.payload);
     },
   },
