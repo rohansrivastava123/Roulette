@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createListenerMiddleware, createSlice } from "@reduxjs/toolkit";
+import { setWinNum } from "./WinningNumber";
 
 const balanceAmount = createSlice({
   name: "remainingBalance",
@@ -8,6 +9,11 @@ const balanceAmount = createSlice({
       return (state -= action.payload);
     },
   },
+  // extraReducers: (builder) => {
+  //   builder.addCase(setWinNum, (state, action) => {
+  //     return state -=
+  //   });
+  // },
 });
 
 export default balanceAmount.reducer;

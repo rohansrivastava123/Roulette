@@ -7,7 +7,7 @@ import betAmount from "./slices/betAmount";
 import balanceAmount from "./slices/totalBalance";
 import GameProgress from "./slices/GameProgress";
 import chipPanelArray from "./slices/chipPanelArray";
-import winningNumber from "./slices/WinningNumber";
+import winningNumber, { winNumberMiddleware } from "./slices/WinningNumber";
 import ModalToggle from "./slices/ModalToggle";
 import TodayHistory from "./slices/TodayHistory";
 import DozenSelect from "./slices/DozenSelect";
@@ -26,6 +26,9 @@ const store = configureStore({
     isModal: ModalToggle,
     historyarr: TodayHistory,
     dozenArr: DozenSelect,
+  },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(winNumberMiddleware.middleware);
   },
 });
 
