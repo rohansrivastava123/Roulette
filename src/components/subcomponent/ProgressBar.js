@@ -51,7 +51,11 @@ export default function ProgressBar() {
 
   const timerPercentage = (timer / 15) * 100;
   return (
-    <div className={style.timer_container}>
+    <div
+      className={`${style.timer_container} ${
+        barMsg === "BETS CLOSED" || barMsg === "SPINNING" ? style.slidedown : ""
+      }`}
+    >
       <div
         className={style.timer_bar}
         style={{
@@ -64,18 +68,20 @@ export default function ProgressBar() {
               ? "red"
               : "",
         }}
-      />
-      {timer === 0 ? (
-        <p className={style.bartext}>{barMsg}</p>
-      ) : timer > 6 ? (
-        <p className={style.bartext}>
-          {barMsg} {timer}
-        </p>
-      ) : (
-        <p className={style.bartextblink}>
-          {barMsg} {timer}
-        </p>
-      )}
+      ></div>
+      <div className={style.msg}>
+        {timer === 0 ? (
+          <p className={style.bartext}>{barMsg}</p>
+        ) : timer > 6 ? (
+          <p className={style.bartext}>
+            {barMsg} {timer}
+          </p>
+        ) : (
+          <p className={style.bartextblink}>
+            {barMsg} {timer}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

@@ -57,9 +57,9 @@ winNumberMiddleware.startListening({
       winnum <= 24
     )
       dispatch(setBal_bet(-3 * dozenarr["secondDozen"].price));
-    if (dozenarr["thirdDozen"].chiptype != null && (winnum - 2) % 3 === 0)
+    if (dozenarr["thirdDozen"].chiptype != null && winnum >= 25 && winnum <= 36)
       dispatch(setBal_bet(-3 * dozenarr["thirdDozen"].price));
-    if (dozenarr["firstHalf"].chiptype != null && winnum >= 25 && winnum <= 36)
+    if (dozenarr["firstHalf"].chiptype != null && winnum >= 1 && winnum <= 18)
       dispatch(setBal_bet(-2 * dozenarr["firstHalf"].price));
     if (dozenarr["Even"].chiptype != null && winnum % 2 == 0)
       dispatch(setBal_bet(-2 * dozenarr["Even"].price));

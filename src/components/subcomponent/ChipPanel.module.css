@@ -4,8 +4,14 @@
   bottom: 12vh;
   height: max-content;
   display: flex;
+  gap: 1rem;
+  flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+  transition: all 0.7s ease; /* Define the transition */
+}
+.slidedown {
+  transform: translateY(40%); /* Slide the div down by 100% of its height */
 }
 .grid {
   width: 40%;

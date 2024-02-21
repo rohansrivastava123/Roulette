@@ -38,7 +38,7 @@ export default function Game() {
             </div>
           </div>
           <div className={styles.rightpart}>
-            <span className={styles.lobbybtn}>Lobby</span>
+            <div className={styles.lobbybtn}>Lobby</div>
             <img
               onClick={() => {
                 dispatch(toggleModal(!isModal));

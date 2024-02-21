@@ -40,7 +40,7 @@ export default function HistoryModal() {
               </div>
             ) : (
               historyarr.map((obj, key) => {
-                console.log(obj);
+                // console.log(obj);
                 return (
                   <div className={style.textcontainer}>
                     <div>

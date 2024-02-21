@@ -18,6 +18,8 @@ export default function ChipPanel() {
   const chipSelected = useSelector((state) => {
     return state.chip_Select;
   });
+  const barmsg = useSelector((state) => state.currMsg);
+  // console.log(barmsg);
   const handleClick = (num) => {
     const obj = CHIPS_ARR.find((c) => c.img === chipSelected);
 
@@ -29,7 +31,7 @@ export default function ChipPanel() {
     }
   };
   const handleDozenClick = (name) => {
-    console.log(name);
+    console.log(tot_bet + " " + bal_bet);
     const obj = CHIPS_ARR.find((c) => c.img === chipSelected);
     if (bal_bet >= tot_bet + obj.val) {
       dispatch(setchipprice_d([name, obj.val]));
@@ -39,8 +41,14 @@ export default function ChipPanel() {
   };
   return (
     <>
-      <ProgressBar />
-      <div className={style.mainpanelgrid}>
+      <div
+        className={`${style.mainpanelgrid} ${
+          barmsg === "BETS CLOSED" || barmsg === "SPINNING"
+            ? style.slidedown
+            : ""
+        }`}
+      >
+        <ProgressBar />
         <div className={style.grid}>
           {arr.map((chip, index) => (
             <div
