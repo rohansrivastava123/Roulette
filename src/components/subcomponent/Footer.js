@@ -18,7 +18,7 @@ export default function Footer() {
     <div className={style.footer}>
       <div className={style.bet_info}>
         <div className={style.betinfotext}>
-          <p>Balance Bet</p>
+          <p>Balance</p>
           <p>${bal_bet}</p>
         </div>
         <div className={style.betinfotext}>
@@ -27,8 +27,8 @@ export default function Footer() {
         </div>
       </div>
       <div
-        className={style.chippanel}
-        style={{ opacity: isChip_Visible ? "" : 0 }}
+        className={`${style.chippanel} ${isChip_Visible ? "" : style.animate}`}
+        // style={{ opacity: isChip_Visible ? "" : 0 }}
       >
         {CHIPS_ARR.map((chip, index) => {
           return (

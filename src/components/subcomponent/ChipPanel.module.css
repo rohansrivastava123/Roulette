@@ -1,5 +1,5 @@
 .mainpanelgrid {
-  width: 100%;
+  width: 99vw;
   position: absolute;
   bottom: 12vh;
   height: max-content;
@@ -8,14 +8,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: all 0.7s ease; /* Define the transition */
+  transition: all 0.7s linear; /* Define the transition */
+}
+.footer_Mobile {
+  display: none;
 }
 .slidedown {
   transform: translateY(40%); /* Slide the div down by 100% of its height */
 }
 .grid {
   width: 40%;
-  height: 25vh;
+  height: 23vh;
   display: grid;
   grid-template-rows: repeat(5, 1fr);
   grid-template-columns: repeat(14, 1fr);
@@ -30,15 +33,19 @@
   grid-column: 2/14;
   grid-template-rows: 3;
 }
-.text {
+.text,
+.text_s {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1vw;
+  font-size: 1rem;
+  color: white;
+  background-color: rgba(49, 49, 49, 0.411);
   cursor: pointer;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  border: 2px solid grey;
+  border: 1px solid grey;
+  /* rotate: -90deg; */
 }
 .diff_select {
   display: grid;
@@ -53,6 +60,9 @@
   grid-template-rows: repeat(3, 1fr);
 }
 .zerochip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   grid-row-start: 1;
   grid-row-end: 4;
   display: flex;
@@ -61,8 +71,9 @@
   color: white;
   font-weight: 600;
   background-color: rgb(13, 168, 13);
-  font-size: 1.2vw;
+  font-size: 1rem;
   cursor: pointer;
+  /* rotate: -90deg; */
 }
 .chips1 {
   display: flex;
@@ -71,12 +82,12 @@
   color: white;
   font-weight: 600;
   background-color: rgb(179, 15, 15);
-  font-size: 1vw;
+  font-size: 1rem;
   cursor: pointer;
 }
 .chips2 {
   display: flex;
-  font-size: 1vw;
+  font-size: 1rem;
   justify-content: center;
   align-items: center;
   color: white;
@@ -86,7 +97,7 @@
 }
 
 .gridchip {
-  width: 2vw;
+  width: 40px;
 }
 .chipscontainer {
   display: flex;
@@ -97,7 +108,97 @@
   position: absolute;
   color: white;
   font-weight: 700;
-  font-size: 0.6vw;
+  font-size: 0.8rem;
+  height: 20px;
   text-align: center;
   /* top:30px; */
+}
+
+@media screen and (max-width: 1200px) {
+  .mainpanelgrid {
+  }
+  .grid {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .grid {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 450px) {
+  .footer_Mobile {
+    display: block;
+  }
+  .mainpanelgrid {
+    width: 70%;
+    height: fit-content;
+    position: absolute;
+    top: 40%;
+    /* left: 5%; */
+    scale: 1.7;
+    /* overflow-x: hidden; */
+  }
+  .grid {
+    transform: rotate(90deg);
+    width: fit-content;
+    height: fit-content;
+  }
+  .gridchip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    padding: 0;
+  }
+  .chipvalues {
+    font-size: 2px;
+  }
+  .chipvalues_rotated span {
+    display: inline-block;
+    rotate: -90deg;
+    /* text-align: center; */
+  }
+  .chips2 span {
+    display: inline-block;
+    rotate: -90deg;
+    padding: 5px;
+    font-size: 0.5rem;
+  }
+
+  .chips1 span {
+    font-size: 0.4rem;
+    display: inline-block;
+    rotate: -90deg;
+    padding: 5px;
+  }
+  .text,
+  .text_s {
+    height: 20px;
+  }
+  .text span,
+  .text_s span {
+    font-size: 0.5rem;
+    margin: 5px;
+  }
+  .text_s span {
+    display: inline-block;
+    rotate: -90deg;
+  }
+  .zerochip span {
+    rotate: -90deg;
+    font-size: 0.5rem;
+  }
+  .zerochip {
+    width: 20px;
+  }
+  .chips1,
+  .chips2 {
+    width: 20px;
+  }
+  .slidedown {
+    scale: 1.3;
+    transform: translateY(30%);
+  }
 }

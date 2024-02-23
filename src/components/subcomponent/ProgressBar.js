@@ -10,6 +10,7 @@ import { setTot_bet } from "../../store/slices/betAmount";
 import { resetPanel } from "../../store/slices/chipPanelArray";
 import { setWinNum } from "../../store/slices/WinningNumber";
 import { resetPanel_d } from "../../store/slices/DozenSelect";
+import { CHIPS_ARR } from "./ChipPanel.constant";
 export default function ProgressBar() {
   const dispatch = useDispatch();
   const timer = useSelector((state) => {
@@ -22,7 +23,7 @@ export default function ProgressBar() {
   const winnum = useSelector((state) => state.WinNum);
   useEffect(() => {
     if (timer === 0) {
-      dispatch(changechip(null));
+      // dispatch(changechip(null));
       dispatch(toggle(false));
       dispatch(setMsg("BETS CLOSED"));
       setTimeout(() => {
@@ -32,6 +33,7 @@ export default function ProgressBar() {
           dispatch(resetPanel());
           dispatch(resetPanel_d());
           dispatch(changetime(15));
+          // dispatch(changechip(CHIPS_ARR[0].img));
           dispatch(setMsg("PLEASE PLACE YOUR BETS -"));
           dispatch(toggle(true));
         }, 5000);
@@ -51,36 +53,40 @@ export default function ProgressBar() {
 
   const timerPercentage = (timer / 15) * 100;
   return (
-    <div
-      className={`${style.timer_container} ${
-        barMsg === "BETS CLOSED" || barMsg === "SPINNING" ? style.slidedown : ""
-      }`}
-    >
+    <div className={style.container}>
       <div
-        className={style.timer_bar}
-        style={{
-          transform: `scaleX(${timerPercentage / 100})`,
-          transition: timerPercentage === 100 ? "none" : undefined,
-          backgroundColor:
-            timerPercentage < 30 && timerPercentage > 10
-              ? "orange"
-              : timerPercentage < 10
-              ? "red"
-              : "",
-        }}
-      ></div>
-      <div className={style.msg}>
-        {timer === 0 ? (
-          <p className={style.bartext}>{barMsg}</p>
-        ) : timer > 6 ? (
-          <p className={style.bartext}>
-            {barMsg} {timer}
-          </p>
-        ) : (
-          <p className={style.bartextblink}>
-            {barMsg} {timer}
-          </p>
-        )}
+        className={`${style.timer_container} ${
+          barMsg === "BETS CLOSED" || barMsg === "SPINNING"
+            ? style.slidedown
+            : ""
+        }`}
+      >
+        <div
+          className={style.timer_bar}
+          style={{
+            transform: `scaleX(${timerPercentage / 100})`,
+            transition: timerPercentage === 100 ? "none" : undefined,
+            backgroundColor:
+              timerPercentage < 30 && timerPercentage > 10
+                ? "orange"
+                : timerPercentage < 10
+                ? "red"
+                : "",
+          }}
+        ></div>
+        <div className={style.msg}>
+          {timer === 0 ? (
+            <p className={style.bartext}>{barMsg}</p>
+          ) : timer > 6 ? (
+            <p className={style.bartext}>
+              {barMsg} {timer}
+            </p>
+          ) : (
+            <p className={style.bartextblink}>
+              {barMsg} {timer}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

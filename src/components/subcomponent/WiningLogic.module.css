@@ -1,13 +1,47 @@
-.container {
-  display: grid;
-  place-items: center;
+.wintext {
+  position: absolute;
+  top: 55%;
+  text-align: center;
+  width: 100%;
+  color: white;
+  font-size: 2rem;
+}
+.hopcontainer {
+  width: 100%;
+  text-align: center;
+  animation: hop 2s forwards linear;
   position: relative;
 }
-.winimage {
+
+@keyframes hop {
+  0% {
+    transform: translateY(0); /* Start position above */
+  }
+  20% {
+    transform: translateY(50px); /* First bounce */
+  }
+  50% {
+    transform: translateY(80px); /* Second bounce */
+  }
+  80% {
+    transform: translateY(60px); /* Third bounce */
+  }
+  100% {
+    transform: translateY(100px); /* Stay at ground */
+  }
 }
-.wintext {
-  color: white;
-  position: absolute;
-  text-align: center;
-  top: 60%;
+@media screen and (max-width: 1200px) {
+  .bg img {
+    scale: 0.7;
+  }
+}
+@media screen and (max-width: 900px) {
+  .bg img {
+    scale: 0.6;
+  }
+}
+@media screen and (max-width: 450px) {
+  .bg img {
+    display: none;
+  }
 }

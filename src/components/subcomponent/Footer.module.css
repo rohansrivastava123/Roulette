@@ -1,7 +1,7 @@
 .footer {
   position: absolute;
   width: 100%;
-  bottom: 0.5vh;
+  bottom: 0.1px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -53,4 +53,29 @@
   color: white;
   font-weight: 700;
   font-size: 1vw;
+}
+.animate {
+  opacity: 0;
+}
+
+@media screen and (max-width: 450px) {
+  .footer {
+    width: 100%;
+    background-color: black;
+  }
+  .bet_info {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .betinfotext {
+    font-size: 0.8rem;
+    white-space: nowrap;
+    color: white;
+  }
+  .chippanel {
+    display: none;
+  }
+  .stats {
+    display: none;
+  }
 }
