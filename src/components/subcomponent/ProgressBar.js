@@ -11,6 +11,7 @@ import { resetPanel } from "../../store/slices/chipPanelArray";
 import { setWinNum } from "../../store/slices/WinningNumber";
 import { resetPanel_d } from "../../store/slices/DozenSelect";
 import { CHIPS_ARR } from "./ChipPanel.constant";
+import { addResult } from "../../store/slices/RecentResult";
 export default function ProgressBar() {
   const dispatch = useDispatch();
   const timer = useSelector((state) => {
@@ -21,6 +22,7 @@ export default function ProgressBar() {
   const currAmtBet = useSelector((state) => state.tot_bet);
   const arr = useSelector((state) => state.ChipArr);
   const winnum = useSelector((state) => state.WinNum);
+
   useEffect(() => {
     if (timer === 0) {
       // dispatch(changechip(null));
@@ -31,6 +33,7 @@ export default function ProgressBar() {
         dispatch(setWinNum(randomNum));
         setTimeout(() => {
           dispatch(resetPanel());
+          dispatch(addResult(randomNum));
           dispatch(resetPanel_d());
           dispatch(changetime(15));
           // dispatch(changechip(CHIPS_ARR[0].img));

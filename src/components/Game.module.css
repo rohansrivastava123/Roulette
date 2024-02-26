@@ -6,6 +6,7 @@
 }
 .main {
   background: linear-gradient(to top, #4cc2e6, #000000dc);
+  background: linear-gradient(to bottom, #105b72, #000000dc);
   height: 100vh;
   width: 100vw;
   box-sizing: border-box;

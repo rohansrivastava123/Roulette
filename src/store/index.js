@@ -11,6 +11,7 @@ import winningNumber, { winNumberMiddleware } from "./slices/WinningNumber";
 import ModalToggle from "./slices/ModalToggle";
 import TodayHistory from "./slices/TodayHistory";
 import DozenSelect from "./slices/DozenSelect";
+import RecentResult from "./slices/RecentResult";
 
 const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ const store = configureStore({
     isModal: ModalToggle,
     historyarr: TodayHistory,
     dozenArr: DozenSelect,
+    recentResultArray: RecentResult,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(winNumberMiddleware.middleware);

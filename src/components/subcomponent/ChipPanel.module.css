@@ -1,7 +1,7 @@
 .mainpanelgrid {
   width: 99vw;
   position: absolute;
-  bottom: 12vh;
+  bottom: 16vh;
   height: max-content;
   display: flex;
   gap: 1rem;
@@ -71,7 +71,7 @@
   color: white;
   font-weight: 600;
   background-color: rgb(13, 168, 13);
-  font-size: 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
   /* rotate: -90deg; */
 }
@@ -82,12 +82,12 @@
   color: white;
   font-weight: 600;
   background-color: rgb(179, 15, 15);
-  font-size: 1rem;
+  font-size: 2rem;
   cursor: pointer;
 }
 .chips2 {
   display: flex;
-  font-size: 1rem;
+  font-size: 2rem;
   justify-content: center;
   align-items: center;
   color: white;
@@ -97,7 +97,7 @@
 }
 
 .gridchip {
-  width: 40px;
+  width: 35px;
 }
 .chipscontainer {
   display: flex;
@@ -108,7 +108,7 @@
   position: absolute;
   color: white;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 1rem;
   height: 20px;
   text-align: center;
   /* top:30px; */
@@ -155,6 +155,8 @@
   .chipvalues {
     font-size: 2px;
   }
+  .zerochip {
+  }
   .chipvalues_rotated span {
     display: inline-block;
     rotate: -90deg;
@@ -168,7 +170,7 @@
   }
 
   .chips1 span {
-    font-size: 0.4rem;
+    font-size: 0.5rem;
     display: inline-block;
     rotate: -90deg;
     padding: 5px;
@@ -187,8 +189,10 @@
     rotate: -90deg;
   }
   .zerochip span {
-    rotate: -90deg;
     font-size: 0.5rem;
+    display: inline-block;
+    rotate: -90deg;
+    padding: 5px;
   }
   .zerochip {
     width: 20px;

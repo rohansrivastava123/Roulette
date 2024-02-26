@@ -9,6 +9,7 @@ import { setBal_bet } from "../../store/slices/totalBalance";
 import { setchipprice_d, setchiptype_d } from "../../store/slices/DozenSelect";
 import { setChipPrice, setChiptype } from "../../store/slices/chipPanelArray";
 import Footer_mobile from "./Footer_mobile";
+import Recent_Result from "./Recent_Result";
 
 export default function ChipPanel() {
   const dispatch = useDispatch();

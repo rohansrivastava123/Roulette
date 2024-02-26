@@ -1,7 +1,7 @@
 .footer {
   position: absolute;
   width: 100%;
-  bottom: 0.1px;
+  bottom: 0.1rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -15,9 +15,12 @@
   font-family: "Courier New", Courier, monospace;
   font-size: 1vw;
   font-weight: 450;
+  margin-bottom: 1rem;
 }
 .betinfotext {
-  margin: 1vw;
+  margin: 1rem;
+  color: white;
+  letter-spacing: 2px;
 }
 .chip {
   display: flex;
@@ -33,6 +36,7 @@
   justify-content: center;
   /* margin-top: 1rem; */
   gap: 4vw;
+  margin-bottom: 2.5rem;
 }
 .chippanel img {
   width: 4vw;
@@ -46,6 +50,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 55px;
 }
 .chipvalues {
   position: absolute;
