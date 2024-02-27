@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import style from "./ChipPanel.module.css";
+import rebetimg from "../../images/rebet.svg";
 import Footer from "./Footer";
 import ProgressBar from "./ProgressBar";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +10,6 @@ import { setBal_bet } from "../../store/slices/totalBalance";
 import { setchipprice_d, setchiptype_d } from "../../store/slices/DozenSelect";
 import { setChipPrice, setChiptype } from "../../store/slices/chipPanelArray";
 import Footer_mobile from "./Footer_mobile";
-import Recent_Result from "./Recent_Result";
 
 export default function ChipPanel() {
   const dispatch = useDispatch();
@@ -42,6 +42,18 @@ export default function ChipPanel() {
       dispatch(setchiptype_d([name, chipSelected]));
       dispatch(setTot_bet(tot_bet + obj.val));
     }
+  };
+  const PrevBetArr = useSelector((state) => state.DupBetArr);
+  const Rebet = () => {
+    console.log("hellox" + PrevBetArr.length);
+    // const obj = arr.find((c) => c.img === chipSelected);
+    PrevBetArr.map((element, index) => {
+      if (timer > 0 && element.price > 0 && bal_bet >= tot_bet + element.val) {
+        dispatch(setTot_bet(tot_bet + element.val));
+        dispatch(setChiptype({ val: element.val, chiptype: chipSelected }));
+        dispatch(setChipPrice({ val: element.val, price: element.price }));
+      }
+    });
   };
   return (
     <>
@@ -386,6 +398,16 @@ export default function ChipPanel() {
               ) : (
                 <span>19-36</span>
               )}
+            </div>
+          </div>
+          <div
+            onClick={() => {
+              Rebet();
+            }}
+            className={style.rebet}
+          >
+            <div>
+              <img src={rebetimg}></img>
             </div>
           </div>
         </div>

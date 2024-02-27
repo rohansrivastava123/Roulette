@@ -27,3 +27,8 @@
 .red {
   color: red;
 }
+.text:hover {
+  border: 1px solid rgb(223, 208, 0);
+  color: rgb(223, 208, 0);
+  cursor: pointer;
+}

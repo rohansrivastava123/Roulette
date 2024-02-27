@@ -56,7 +56,7 @@ const DozenSelect = createSlice({
   reducers: {
     setchipprice_d(state, action) {
       const [name, price] = action.payload;
-      console.log(action.payload);
+      // console.log(action.payload);
       state[name].price += price;
     },
     setchiptype_d(state, action) {

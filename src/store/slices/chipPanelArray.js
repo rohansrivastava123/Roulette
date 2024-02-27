@@ -39,7 +39,6 @@ const initialState = [
   { val: 31, chiptype: null, price: 0 },
   { val: 34, chiptype: null, price: 0 },
 ];
-
 const chipPanelArray = createSlice({
   name: "chipspanel",
   initialState,
@@ -60,5 +59,6 @@ const chipPanelArray = createSlice({
   },
 });
 
-export const { setChiptype, setChipPrice, resetPanel } = chipPanelArray.actions;
+export const { setChiptype, setChipPrice, resetPanel, duplicateState } =
+  chipPanelArray.actions;
 export default chipPanelArray.reducer;
