@@ -15,7 +15,6 @@ import HistoryModal from "./subcomponent/HistoryModal.js";
 
 export default function Game() {
   const currTime = new Date();
-  // console.log("gamejs");
   const barMsg = useSelector((state) => state.currMsg);
   const dispatch = useDispatch();
   const isModal = useSelector((state) => state.isModal);
@@ -30,7 +29,7 @@ export default function Game() {
             </Link>
             <div className={styles.textnavinfo}>
               <span className={styles.navlefttext}>
-                Treasure Hunt : $0.1 - $5,000
+                Roulette : $0.1 - $5,000
               </span>
               <span className={styles.timetext}>
                 {currTime.getHours()}:{currTime.getMinutes()}

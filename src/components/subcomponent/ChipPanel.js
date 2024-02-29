@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import style from "./ChipPanel.module.css";
 import rebetimg from "../../images/rebet.svg";
+import doublebetimg from "../../images/2xbet.svg";
 import Footer from "./Footer";
 import ProgressBar from "./ProgressBar";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +11,7 @@ import { setBal_bet } from "../../store/slices/totalBalance";
 import { setchipprice_d, setchiptype_d } from "../../store/slices/DozenSelect";
 import { setChipPrice, setChiptype } from "../../store/slices/chipPanelArray";
 import Footer_mobile from "./Footer_mobile";
+import { toggle } from "../../store/slices/doubleBetToggle";
 
 export default function ChipPanel() {
   const dispatch = useDispatch();
@@ -17,6 +19,7 @@ export default function ChipPanel() {
   const bal_bet = useSelector((state) => state.bal_bet);
   const arr = useSelector((state) => state.ChipArr);
   const dozenarr = useSelector((state) => state.dozenArr);
+  const doublebet = useSelector((state) => state.doublbet);
   const chipSelected = useSelector((state) => {
     return state.chip_Select;
   });
@@ -24,36 +27,55 @@ export default function ChipPanel() {
     return state.time;
   });
   const barmsg = useSelector((state) => state.currMsg);
-  // console.log(barmsg);
+  const PrevBetArr = useSelector((state) => state.DupBetArr);
+  useEffect(() => {}, tot_bet);
   const handleClick = (num) => {
     const obj = CHIPS_ARR.find((c) => c.img === chipSelected);
 
-    if (timer > 0 && bal_bet >= tot_bet + obj.val) {
-      dispatch(setTot_bet(tot_bet + obj.val));
+    if (timer > 0 && bal_bet >= tot_bet + obj.price) {
       dispatch(setChiptype({ val: num, chiptype: chipSelected }));
-      dispatch(setChipPrice({ val: num, price: obj.val }));
+      dispatch(setChipPrice({ val: num, price: obj.price }));
+      dispatch(setTot_bet(tot_bet + obj.price));
     }
   };
   const handleDozenClick = (name) => {
-    // console.log(tot_bet + " " + bal_bet);
     const obj = CHIPS_ARR.find((c) => c.img === chipSelected);
-    if (timer > 0 && bal_bet >= tot_bet + obj.val) {
-      dispatch(setchipprice_d([name, obj.val]));
+    if (timer > 0 && bal_bet >= tot_bet + obj.price) {
+      dispatch(setchipprice_d([name, obj.price]));
       dispatch(setchiptype_d([name, chipSelected]));
-      dispatch(setTot_bet(tot_bet + obj.val));
+      dispatch(setTot_bet(tot_bet + obj.price));
     }
   };
-  const PrevBetArr = useSelector((state) => state.DupBetArr);
+  const HandledoubleBetClick = () => {
+    let totbetcount = 0;
+    arr.map((obj, index) => {
+      if (timer > 0 && obj.price > 0 && bal_bet >= tot_bet + obj.price) {
+        totbetcount += obj.price;
+        dispatch(setTot_bet(tot_bet + obj.price));
+        dispatch(setChiptype({ val: obj.val, chiptype: chipSelected }));
+        dispatch(setChipPrice({ val: obj.val, price: obj.price }));
+      }
+    });
+    // console.log(totbetcount);
+    dispatch(setTot_bet(tot_bet + totbetcount));
+  };
   const Rebet = () => {
-    console.log("hellox" + PrevBetArr.length);
-    // const obj = arr.find((c) => c.img === chipSelected);
+    let totbetcount = 0;
     PrevBetArr.map((element, index) => {
-      if (timer > 0 && element.price > 0 && bal_bet >= tot_bet + element.val) {
-        dispatch(setTot_bet(tot_bet + element.val));
+      if (
+        timer > 0 &&
+        element.price > 0 &&
+        bal_bet >= tot_bet + element.price
+      ) {
+        totbetcount += element.price;
+        // dispatch(setTot_bet(tot_bet + element.price));
         dispatch(setChiptype({ val: element.val, chiptype: chipSelected }));
         dispatch(setChipPrice({ val: element.val, price: element.price }));
       }
+      return { ...element, price: 2 * element.price };
     });
+    console.log(PrevBetArr);
+    dispatch(setTot_bet(tot_bet + totbetcount));
   };
   return (
     <>
@@ -400,15 +422,30 @@ export default function ChipPanel() {
               )}
             </div>
           </div>
-          <div
-            onClick={() => {
-              Rebet();
-            }}
-            className={style.rebet}
-          >
-            <div>
-              <img src={rebetimg}></img>
-            </div>
+          <div className={style.rebet}>
+            {doublebet ? (
+              <div
+                onClick={() => {
+                  HandledoubleBetClick();
+                }}
+              >
+                <img src={doublebetimg}></img>
+              </div>
+            ) : (
+              <div
+                onClick={
+                  PrevBetArr.length === 0
+                    ? () => {}
+                    : () => {
+                        dispatch(toggle());
+                        Rebet();
+                      }
+                }
+                className={PrevBetArr.length == 0 ? style.fadeimg : ""}
+              >
+                <img src={rebetimg}></img>
+              </div>
+            )}
           </div>
         </div>
       </div>

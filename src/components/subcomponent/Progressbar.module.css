@@ -15,7 +15,7 @@
   overflow: hidden;
   display: flex;
   justify-content: center;
-  transition: all 0.7s linear; /* Define the transition */
+  transition: transform 0.7s linear; /* Define the transition */
 }
 .slidedown {
   transform: translateY(calc(60% + 75px));

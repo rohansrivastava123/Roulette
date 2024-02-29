@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setWinNum } from "./WinningNumber";
 
 const BetAmount = createSlice({
   name: "currentBet",

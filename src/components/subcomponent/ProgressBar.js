@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import style from "./Progressbar.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { toggle } from "../../store/slices/chip_Visibility";
+import { toggle as toggledoublebet } from "../../store/slices/doubleBetToggle";
 import { changetime } from "../../store/slices/Timer";
 import { setMsg } from "../../store/slices/GameProgress";
 import { resetPanel } from "../../store/slices/chipPanelArray";
@@ -18,6 +19,7 @@ export default function ProgressBar() {
   const barMsg = useSelector((state) => state.currMsg);
   const tot_Bet = useSelector((state) => state.tot_bet);
   const arr = useSelector((state) => state.ChipArr);
+  const doublebet = useSelector((state) => state.doublbet);
   // const winnum = useSelector((state) => state.WinNum);
 
   useEffect(() => {
@@ -27,6 +29,9 @@ export default function ProgressBar() {
       setTimeout(() => {
         dispatch(setMsg("SPINNING"));
         dispatch(setWinNum(randomNum));
+        if (doublebet) {
+          dispatch(toggledoublebet());
+        }
         setTimeout(() => {
           console.log(arr);
           if (tot_Bet > 0) dispatch(copyBet(arr));

@@ -49,7 +49,7 @@ export default function Footer() {
                   <img alt="" src={chip.img}></img>
                 </div>
                 <div className={style.chipvalues}>
-                  <span> {chip.val}</span>
+                  <span> {chip.price}</span>
                 </div>
               </div>
             );

@@ -13,6 +13,7 @@ import TodayHistory from "./slices/TodayHistory";
 import DozenSelect from "./slices/DozenSelect";
 import RecentResult from "./slices/RecentResult";
 import DuplicatePrevBet from "./slices/DuplicatePrevBet";
+import doubleBetToggle from "./slices/doubleBetToggle";
 
 const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ const store = configureStore({
     dozenArr: DozenSelect,
     recentResultArray: RecentResult,
     DupBetArr: DuplicatePrevBet,
+    doublbet: doubleBetToggle,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(winNumberMiddleware.middleware);
