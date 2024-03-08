@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import style from "./ChipPanel.module.css";
 import rebetimg from "../../images/rebet.svg";
 import doublebetimg from "../../images/2xbet.svg";
+import undoimg from "../../images/undo.svg";
 import Footer from "./Footer";
 import ProgressBar from "./ProgressBar";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +13,7 @@ import { setchipprice_d, setchiptype_d } from "../../store/slices/DozenSelect";
 import { setChipPrice, setChiptype } from "../../store/slices/chipPanelArray";
 import Footer_mobile from "./Footer_mobile";
 import { toggle } from "../../store/slices/doubleBetToggle";
+import { pushInstance, popInstance } from "../../store/slices/UndoArr";
 
 export default function ChipPanel() {
   const dispatch = useDispatch();
@@ -20,6 +22,7 @@ export default function ChipPanel() {
   const arr = useSelector((state) => state.ChipArr);
   const dozenarr = useSelector((state) => state.dozenArr);
   const doublebet = useSelector((state) => state.doublbet);
+  const UndoArr = useSelector((state) => state.UndoArr);
   const chipSelected = useSelector((state) => {
     return state.chip_Select;
   });
@@ -28,8 +31,12 @@ export default function ChipPanel() {
   });
   const barmsg = useSelector((state) => state.currMsg);
   const PrevBetArr = useSelector((state) => state.DupBetArr);
-  // useEffect(() => {}, tot_bet);
+  useEffect(() => {
+    // console.log(UndoArr);
+  }, [arr, UndoArr]);
   const PrevDozenArr = useSelector((state) => state.DupDozenArr);
+
+  //FUNCTIONS
   const handleClick = (num) => {
     const obj = CHIPS_ARR.find((c) => c.img === chipSelected);
 
@@ -38,6 +45,8 @@ export default function ChipPanel() {
       dispatch(setChipPrice({ val: num, price: obj.price }));
       dispatch(setTot_bet(tot_bet + obj.price));
     }
+    dispatch(pushInstance({ val: num, price: obj.price }));
+    // console.log(UndoArr);
   };
   const handleDozenClick = (name) => {
     const obj = CHIPS_ARR.find((c) => c.img === chipSelected);
@@ -46,6 +55,7 @@ export default function ChipPanel() {
       dispatch(setchiptype_d([name, chipSelected]));
       dispatch(setTot_bet(tot_bet + obj.price));
     }
+    dispatch(pushInstance({ val: name, price: obj.price }));
   };
   const HandledoubleBetClick = () => {
     let totbetcount = 0;
@@ -94,6 +104,25 @@ export default function ChipPanel() {
     }
     //console.log(PrevBetArr);
     dispatch(setTot_bet(tot_bet + totbetcount));
+  };
+  const handleUndo = () => {
+    let obj = UndoArr[0];
+    if (isNaN(obj.val)) {
+      // dozenarr[obj.val].price -= obj.price;
+      // console.log("hehe " + dozenarr[obj.val].price + " - " + obj.price);
+      dispatch(setchipprice_d([obj.val, -obj.price]));
+      if (dozenarr[obj.val].price == obj.price) {
+        dispatch(setchiptype_d([obj.val, null]));
+      }
+    } else {
+      const element = arr.find((c) => c.val === obj.val);
+      if (obj.price == element.price)
+        dispatch(setChiptype({ val: obj.val, chiptype: null }));
+      dispatch(setChipPrice({ val: obj.val, price: -obj.price }));
+    }
+    // console.log(dozenarr[obj.val].price);
+    dispatch(popInstance());
+    dispatch(setTot_bet(tot_bet - obj.price));
   };
   return (
     <>
@@ -286,6 +315,7 @@ export default function ChipPanel() {
               )}
             </div>
           </div>
+
           <div className={style.diff_select}>
             <div
               onClick={() =>
@@ -464,6 +494,14 @@ export default function ChipPanel() {
                 <img src={rebetimg}></img>
               </div>
             )}
+          </div>
+          <div
+            className={`style.rebet ${
+              UndoArr.length == 0 ? style.fadeimg : ""
+            }`}
+            onClick={() => (UndoArr.length > 0 ? handleUndo() : "")}
+          >
+            <img src={undoimg}></img>
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import { resetPanel_d } from "../../store/slices/DozenSelect";
 import { addResult } from "../../store/slices/RecentResult";
 import { copyBet } from "../../store/slices/DuplicatePrevBet";
 import { copyDozenBet } from "../../store/slices/DuplicateDozenBet";
+import { resetUndoArr } from "../../store/slices/UndoArr";
 export default function ProgressBar() {
   const dispatch = useDispatch();
   const timer = useSelector((state) => {
@@ -34,6 +35,7 @@ export default function ProgressBar() {
         if (doublebet) {
           dispatch(toggledoublebet());
         }
+        dispatch(resetUndoArr());
         setTimeout(() => {
           //console.log(arr);
           if (tot_Bet > 0) {

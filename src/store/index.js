@@ -15,6 +15,7 @@ import RecentResult from "./slices/RecentResult";
 import DuplicatePrevBet from "./slices/DuplicatePrevBet";
 import doubleBetToggle from "./slices/doubleBetToggle";
 import DuplicateDozenBet from "./slices/DuplicateDozenBet";
+import UndoArr from "./slices/UndoArr";
 
 const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ const store = configureStore({
     recentResultArray: RecentResult,
     DupBetArr: DuplicatePrevBet,
     DupDozenArr: DuplicateDozenBet,
+    UndoArr: UndoArr,
     doublbet: doubleBetToggle,
   },
   middleware: (getDefaultMiddleware) => {
