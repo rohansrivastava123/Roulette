@@ -17,11 +17,11 @@ export default function Recent_Result() {
   });
   const handleClick = (num) => {
     const obj = CHIPS_ARR.find((c) => c.img === chipSelected);
-
-    if (timer > 0 && bal_bet >= tot_bet + obj.val) {
-      dispatch(setTot_bet(tot_bet + obj.val));
+    console.log(obj);
+    if (timer > 0 && bal_bet >= tot_bet + obj.price) {
+      dispatch(setTot_bet(tot_bet + obj.price));
       dispatch(setChiptype({ val: num, chiptype: chipSelected }));
-      dispatch(setChipPrice({ val: num, price: obj.val }));
+      dispatch(setChipPrice({ val: num, price: obj.price }));
     }
   };
   return (

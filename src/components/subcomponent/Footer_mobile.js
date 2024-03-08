@@ -47,7 +47,7 @@ export default function Footer_mobile() {
             <div
               onClick={() => {
                 dispatch(changechip(chip.img));
-                setChipSelectedVal(chip.val);
+                setChipSelectedVal(chip.price);
                 handleChipClick();
               }}
               className={style.chipscontainer}
@@ -59,7 +59,7 @@ export default function Footer_mobile() {
                 <img alt="" src={chip.img}></img>
               </div>
               <div className={style.chipvalues}>
-                <span> {chip.val}</span>
+                <span> {chip.price}</span>
               </div>
             </div>
           );

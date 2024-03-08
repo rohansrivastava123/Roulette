@@ -14,6 +14,7 @@ import DozenSelect from "./slices/DozenSelect";
 import RecentResult from "./slices/RecentResult";
 import DuplicatePrevBet from "./slices/DuplicatePrevBet";
 import doubleBetToggle from "./slices/doubleBetToggle";
+import DuplicateDozenBet from "./slices/DuplicateDozenBet";
 
 const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ const store = configureStore({
     dozenArr: DozenSelect,
     recentResultArray: RecentResult,
     DupBetArr: DuplicatePrevBet,
+    DupDozenArr: DuplicateDozenBet,
     doublbet: doubleBetToggle,
   },
   middleware: (getDefaultMiddleware) => {

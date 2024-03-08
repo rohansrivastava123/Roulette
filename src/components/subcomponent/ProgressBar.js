@@ -10,6 +10,7 @@ import { setWinNum } from "../../store/slices/WinningNumber";
 import { resetPanel_d } from "../../store/slices/DozenSelect";
 import { addResult } from "../../store/slices/RecentResult";
 import { copyBet } from "../../store/slices/DuplicatePrevBet";
+import { copyDozenBet } from "../../store/slices/DuplicateDozenBet";
 export default function ProgressBar() {
   const dispatch = useDispatch();
   const timer = useSelector((state) => {
@@ -19,6 +20,7 @@ export default function ProgressBar() {
   const barMsg = useSelector((state) => state.currMsg);
   const tot_Bet = useSelector((state) => state.tot_bet);
   const arr = useSelector((state) => state.ChipArr);
+  const dozenarr = useSelector((state) => state.dozenArr);
   const doublebet = useSelector((state) => state.doublbet);
   // const winnum = useSelector((state) => state.WinNum);
 
@@ -33,8 +35,11 @@ export default function ProgressBar() {
           dispatch(toggledoublebet());
         }
         setTimeout(() => {
-          console.log(arr);
-          if (tot_Bet > 0) dispatch(copyBet(arr));
+          //console.log(arr);
+          if (tot_Bet > 0) {
+            dispatch(copyBet(arr));
+            dispatch(copyDozenBet(dozenarr));
+          }
           dispatch(resetPanel());
           dispatch(addResult(randomNum));
           dispatch(resetPanel_d());

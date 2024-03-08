@@ -28,7 +28,8 @@ export default function ChipPanel() {
   });
   const barmsg = useSelector((state) => state.currMsg);
   const PrevBetArr = useSelector((state) => state.DupBetArr);
-  useEffect(() => {}, tot_bet);
+  // useEffect(() => {}, tot_bet);
+  const PrevDozenArr = useSelector((state) => state.DupDozenArr);
   const handleClick = (num) => {
     const obj = CHIPS_ARR.find((c) => c.img === chipSelected);
 
@@ -50,12 +51,22 @@ export default function ChipPanel() {
     let totbetcount = 0;
     arr.map((obj, index) => {
       if (timer > 0 && obj.price > 0 && bal_bet >= tot_bet + obj.price) {
-        totbetcount += obj.price;
-        dispatch(setTot_bet(tot_bet + obj.price));
         dispatch(setChiptype({ val: obj.val, chiptype: chipSelected }));
         dispatch(setChipPrice({ val: obj.val, price: obj.price }));
+        totbetcount += obj.price;
       }
     });
+    for (let obj in dozenarr) {
+      if (
+        timer > 0 &&
+        dozenarr[obj].price > 0 &&
+        bal_bet >= tot_bet + dozenarr[obj].price
+      ) {
+        dispatch(setchipprice_d([obj, dozenarr[obj].price]));
+        dispatch(setchiptype_d([obj, chipSelected]));
+        totbetcount += dozenarr[obj].price;
+      }
+    }
     // console.log(totbetcount);
     dispatch(setTot_bet(tot_bet + totbetcount));
   };
@@ -68,13 +79,20 @@ export default function ChipPanel() {
         bal_bet >= tot_bet + element.price
       ) {
         totbetcount += element.price;
-        // dispatch(setTot_bet(tot_bet + element.price));
         dispatch(setChiptype({ val: element.val, chiptype: chipSelected }));
         dispatch(setChipPrice({ val: element.val, price: element.price }));
       }
-      return { ...element, price: 2 * element.price };
     });
-    console.log(PrevBetArr);
+    for (let doz in PrevDozenArr) {
+      console.log(PrevDozenArr[doz]);
+      let obj = PrevDozenArr[doz];
+      if (timer > 0 && bal_bet >= tot_bet + obj.price && obj.price > 0) {
+        dispatch(setchipprice_d([doz, obj.price]));
+        dispatch(setchiptype_d([doz, chipSelected]));
+        totbetcount += obj.price;
+      }
+    }
+    //console.log(PrevBetArr);
     dispatch(setTot_bet(tot_bet + totbetcount));
   };
   return (
