@@ -30,6 +30,7 @@ export default function Recent_Result() {
         {recentResultArray.map((element, index) => {
           return (
             <div
+              key={index}
               onClick={() => {
                 handleClick(element);
               }}

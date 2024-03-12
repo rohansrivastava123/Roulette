@@ -37,6 +37,7 @@ export default function Footer() {
           {CHIPS_ARR.map((chip, index) => {
             return (
               <div
+                key={index}
                 onClick={() => {
                   dispatch(changechip(chip.img));
                 }}

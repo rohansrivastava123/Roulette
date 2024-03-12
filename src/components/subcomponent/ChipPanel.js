@@ -12,7 +12,7 @@ import { setBal_bet } from "../../store/slices/totalBalance";
 import { setchipprice_d, setchiptype_d } from "../../store/slices/DozenSelect";
 import { setChipPrice, setChiptype } from "../../store/slices/chipPanelArray";
 import Footer_mobile from "./Footer_mobile";
-import { toggle } from "../../store/slices/doubleBetToggle";
+import { toggle as toggleDoubleBet } from "../../store/slices/doubleBetToggle";
 import { pushInstance, popInstance } from "../../store/slices/UndoArr";
 
 export default function ChipPanel() {
@@ -33,6 +33,7 @@ export default function ChipPanel() {
   const PrevBetArr = useSelector((state) => state.DupBetArr);
   useEffect(() => {
     // console.log(UndoArr);
+    // if (UndoArr.length == 0) dispatch(toggleDoubleBet());
   }, [arr, UndoArr]);
   const PrevDozenArr = useSelector((state) => state.DupDozenArr);
 
@@ -45,7 +46,7 @@ export default function ChipPanel() {
       dispatch(setChipPrice({ val: num, price: obj.price }));
       dispatch(setTot_bet(tot_bet + obj.price));
     }
-    dispatch(pushInstance({ val: num, price: obj.price }));
+    dispatch(pushInstance([{ val: num, price: obj.price }])); // pushing number click changes to undo Array
     // console.log(UndoArr);
   };
   const handleDozenClick = (name) => {
@@ -55,7 +56,8 @@ export default function ChipPanel() {
       dispatch(setchiptype_d([name, chipSelected]));
       dispatch(setTot_bet(tot_bet + obj.price));
     }
-    dispatch(pushInstance({ val: name, price: obj.price }));
+    dispatch(pushInstance([{ val: name, price: obj.price }])); //pushing set click changes to undo array
+    //console.log(UndoArr);
   };
   const HandledoubleBetClick = () => {
     let totbetcount = 0;
@@ -79,6 +81,18 @@ export default function ChipPanel() {
     }
     // console.log(totbetcount);
     dispatch(setTot_bet(tot_bet + totbetcount));
+    const rebetarr = [];
+    arr.map((obj, index) => {
+      let arr = { val: obj.val, price: obj.price };
+      if (obj.price > 0) rebetarr.push(arr);
+    });
+    for (let i in dozenarr) {
+      let item = dozenarr[i];
+
+      let arr = { val: i, price: item.price };
+      if (item.price > 0) rebetarr.push(arr);
+    }
+    dispatch(pushInstance(rebetarr));
   };
   const Rebet = () => {
     let totbetcount = 0;
@@ -94,7 +108,7 @@ export default function ChipPanel() {
       }
     });
     for (let doz in PrevDozenArr) {
-      console.log(PrevDozenArr[doz]);
+      //console.log(PrevDozenArr[doz]);
       let obj = PrevDozenArr[doz];
       if (timer > 0 && bal_bet >= tot_bet + obj.price && obj.price > 0) {
         dispatch(setchipprice_d([doz, obj.price]));
@@ -104,25 +118,48 @@ export default function ChipPanel() {
     }
     //console.log(PrevBetArr);
     dispatch(setTot_bet(tot_bet + totbetcount));
+    const rebetarr = [];
+    PrevBetArr.map((obj, index) => {
+      let arr = { val: obj.val, price: obj.price };
+      if (obj.price > 0) rebetarr.push(arr);
+    });
+    for (let i in PrevDozenArr) {
+      let item = PrevDozenArr[i];
+
+      let arr = { val: i, price: item.price };
+      if (item.price > 0) rebetarr.push(arr);
+    }
+    dispatch(pushInstance(rebetarr));
+    //console.log(rebetarr);
   };
   const handleUndo = () => {
-    let obj = UndoArr[0];
-    if (isNaN(obj.val)) {
-      // dozenarr[obj.val].price -= obj.price;
-      // console.log("hehe " + dozenarr[obj.val].price + " - " + obj.price);
-      dispatch(setchipprice_d([obj.val, -obj.price]));
-      if (dozenarr[obj.val].price == obj.price) {
-        dispatch(setchiptype_d([obj.val, null]));
+    let Pobj = UndoArr[0]; // obj is also an array so Pobj is an parent array
+    let totbetcountremove = 0;
+    //console.log(Pobj);
+    Pobj.map((obj, index) => {
+      if (obj.price > 0) {
+        //console.log(obj.val);
+        if (isNaN(obj.val)) {
+          //console.log("set");
+          dispatch(setchipprice_d([obj.val, -obj.price]));
+          if (dozenarr[obj.val].price == obj.price) {
+            dispatch(setchiptype_d([obj.val, null]));
+          }
+        } else {
+          const element = arr.find((c) => c.val === obj.val);
+          if (obj.price == element.price)
+            dispatch(setChiptype({ val: obj.val, chiptype: null }));
+          dispatch(setChipPrice({ val: obj.val, price: -obj.price }));
+        }
       }
-    } else {
-      const element = arr.find((c) => c.val === obj.val);
-      if (obj.price == element.price)
-        dispatch(setChiptype({ val: obj.val, chiptype: null }));
-      dispatch(setChipPrice({ val: obj.val, price: -obj.price }));
-    }
-    // console.log(dozenarr[obj.val].price);
+      // console.log(dozenarr[obj.val].price);
+      //console.log(totbetcountremove);
+      totbetcountremove += obj.price;
+    });
     dispatch(popInstance());
-    dispatch(setTot_bet(tot_bet - obj.price));
+    dispatch(setTot_bet(tot_bet - totbetcountremove));
+    if (UndoArr.length == 0) dispatch(toggleDoubleBet());
+    // console.log(UndoArr);
   };
   return (
     <>
@@ -315,6 +352,14 @@ export default function ChipPanel() {
               )}
             </div>
           </div>
+          <div
+            className={`${style.rebet} ${
+              UndoArr.length == 0 ? style.fadeimg : ""
+            }`}
+            onClick={() => (UndoArr.length > 0 ? handleUndo() : "")}
+          >
+            <img src={undoimg}></img>
+          </div>
 
           <div className={style.diff_select}>
             <div
@@ -485,23 +530,17 @@ export default function ChipPanel() {
                   PrevBetArr.length === 0
                     ? () => {}
                     : () => {
-                        dispatch(toggle());
+                        dispatch(toggleDoubleBet());
                         Rebet();
                       }
                 }
-                className={PrevBetArr.length == 0 ? style.fadeimg : ""}
+                className={
+                  PrevBetArr.length == 0 || timer <= 0 ? style.fadeimg : ""
+                }
               >
                 <img src={rebetimg}></img>
               </div>
             )}
-          </div>
-          <div
-            className={`style.rebet ${
-              UndoArr.length == 0 ? style.fadeimg : ""
-            }`}
-            onClick={() => (UndoArr.length > 0 ? handleUndo() : "")}
-          >
-            <img src={undoimg}></img>
           </div>
         </div>
       </div>

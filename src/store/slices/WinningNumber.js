@@ -24,7 +24,7 @@ winNumberMiddleware.startListening({
   effect: (action, { dispatch, getState }) => {
     const state = getState();
     const tot_bet = state.tot_bet;
-    console.log("#### In middleware effect", tot_bet);
+    //console.log("#### In middleware effect", tot_bet);
 
     if (tot_bet === 0) {
       return;
