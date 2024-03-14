@@ -11,7 +11,6 @@ import TodayHistory from "./slices/TodayHistory";
 import RecentResult from "./slices/RecentResult";
 import DuplicatePrevBet from "./slices/DuplicatePrevBet";
 import doubleBetToggle from "./slices/doubleBetToggle";
-import UndoArr from "./slices/UndoArr";
 import BetstackArray from "./slices/BetstackArray";
 
 const store = configureStore({
@@ -27,7 +26,6 @@ const store = configureStore({
     historyarr: TodayHistory,
     recentResultArray: RecentResult,
     DupBetArr: DuplicatePrevBet,
-    UndoArr: UndoArr,
     doublbet: doubleBetToggle,
     BetStackArray: BetstackArray,
   },

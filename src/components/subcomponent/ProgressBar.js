@@ -8,7 +8,6 @@ import { setMsg } from "../../store/slices/GameProgress";
 import { setWinNum } from "../../store/slices/WinningNumber";
 import { addResult } from "../../store/slices/RecentResult";
 import { copyBet } from "../../store/slices/DuplicatePrevBet";
-import { resetUndoArr } from "../../store/slices/UndoArr";
 import { ResetStack } from "../../store/slices/BetstackArray";
 export default function ProgressBar() {
   const dispatch = useDispatch();
@@ -31,7 +30,6 @@ export default function ProgressBar() {
         dispatch(setMsg("SPINNING"));
         dispatch(setWinNum(randomNum));
         dispatch(ResetStack());
-        dispatch(resetUndoArr());
         setTimeout(() => {
           if (tot_Bet > 0) {
             dispatch(copyBet(betstackarr));

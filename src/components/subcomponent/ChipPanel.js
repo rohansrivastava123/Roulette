@@ -10,7 +10,6 @@ import { CHIPS_ARR } from "./ChipPanel.constant";
 import { setTot_bet } from "../../store/slices/betAmount";
 import Footer_mobile from "./Footer_mobile";
 import { toggle as toggleDoubleBet } from "../../store/slices/doubleBetToggle";
-import { pushInstance, popInstance } from "../../store/slices/UndoArr";
 import { PlaceBet, RemoveBet } from "../../store/slices/BetstackArray";
 import directSet from "./directSetConstant";
 import multiset from "./multiSetConstant";
@@ -34,7 +33,6 @@ export default function ChipPanel() {
     if (betstackarr.length != 0) dispatch(toggleDoubleBet(true));
     else dispatch(toggleDoubleBet(false));
   }, [betstackarr]);
-  const PrevDozenArr = useSelector((state) => state.DupDozenArr);
 
   //FUNCTIONS
   const handleClick = (num) => {
@@ -43,7 +41,6 @@ export default function ChipPanel() {
     if (timer > 0 && bal_bet >= tot_bet + obj.price) {
       dispatch(setTot_bet(tot_bet + obj.price));
     }
-    dispatch(pushInstance([{ val: num, price: obj.price }])); // pushing number click changes to undo Array
     dispatch(PlaceBet([{ val: num, price: obj.price, chip: chipSelected }]));
   };
   const handleMultiSelectClick = (name) => {
@@ -51,7 +48,6 @@ export default function ChipPanel() {
     if (timer > 0 && bal_bet >= tot_bet + obj.price) {
       dispatch(setTot_bet(tot_bet + obj.price));
     }
-    dispatch(pushInstance([{ val: name, price: obj.price }])); //pushing set click changes to undo array
     dispatch(PlaceBet([{ val: name, price: obj.price, chip: chipSelected }]));
   };
   const HandledoubleBetClick = () => {
