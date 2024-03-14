@@ -8,21 +8,18 @@ import ProgressBar from "./ProgressBar";
 import { useDispatch, useSelector } from "react-redux";
 import { CHIPS_ARR } from "./ChipPanel.constant";
 import { setTot_bet } from "../../store/slices/betAmount";
-import { setBal_bet } from "../../store/slices/totalBalance";
-import { setchipprice_d, setchiptype_d } from "../../store/slices/DozenSelect";
-import { setChipPrice, setChiptype } from "../../store/slices/chipPanelArray";
 import Footer_mobile from "./Footer_mobile";
 import { toggle as toggleDoubleBet } from "../../store/slices/doubleBetToggle";
 import { pushInstance, popInstance } from "../../store/slices/UndoArr";
-
+import { PlaceBet, RemoveBet } from "../../store/slices/BetstackArray";
+import directSet from "./directSetConstant";
+import multiset from "./multiSetConstant";
 export default function ChipPanel() {
   const dispatch = useDispatch();
   const tot_bet = useSelector((state) => state.tot_bet);
   const bal_bet = useSelector((state) => state.bal_bet);
-  const arr = useSelector((state) => state.ChipArr);
-  const dozenarr = useSelector((state) => state.dozenArr);
+  const betstackarr = useSelector((state) => state.BetStackArray);
   const doublebet = useSelector((state) => state.doublbet);
-  const UndoArr = useSelector((state) => state.UndoArr);
   const chipSelected = useSelector((state) => {
     return state.chip_Select;
   });
@@ -32,9 +29,11 @@ export default function ChipPanel() {
   const barmsg = useSelector((state) => state.currMsg);
   const PrevBetArr = useSelector((state) => state.DupBetArr);
   useEffect(() => {
-    // console.log(UndoArr);
-    // if (UndoArr.length == 0) dispatch(toggleDoubleBet());
-  }, [arr, UndoArr]);
+    console.log("betstack");
+    console.log(betstackarr);
+    if (betstackarr.length != 0) dispatch(toggleDoubleBet(true));
+    else dispatch(toggleDoubleBet(false));
+  }, [betstackarr]);
   const PrevDozenArr = useSelector((state) => state.DupDozenArr);
 
   //FUNCTIONS
@@ -42,124 +41,54 @@ export default function ChipPanel() {
     const obj = CHIPS_ARR.find((c) => c.img === chipSelected);
 
     if (timer > 0 && bal_bet >= tot_bet + obj.price) {
-      dispatch(setChiptype({ val: num, chiptype: chipSelected }));
-      dispatch(setChipPrice({ val: num, price: obj.price }));
       dispatch(setTot_bet(tot_bet + obj.price));
     }
     dispatch(pushInstance([{ val: num, price: obj.price }])); // pushing number click changes to undo Array
-    // console.log(UndoArr);
+    dispatch(PlaceBet([{ val: num, price: obj.price, chip: chipSelected }]));
   };
-  const handleDozenClick = (name) => {
+  const handleMultiSelectClick = (name) => {
     const obj = CHIPS_ARR.find((c) => c.img === chipSelected);
     if (timer > 0 && bal_bet >= tot_bet + obj.price) {
-      dispatch(setchipprice_d([name, obj.price]));
-      dispatch(setchiptype_d([name, chipSelected]));
       dispatch(setTot_bet(tot_bet + obj.price));
     }
     dispatch(pushInstance([{ val: name, price: obj.price }])); //pushing set click changes to undo array
-    //console.log(UndoArr);
+    dispatch(PlaceBet([{ val: name, price: obj.price, chip: chipSelected }]));
   };
   const HandledoubleBetClick = () => {
     let totbetcount = 0;
-    arr.map((obj, index) => {
-      if (timer > 0 && obj.price > 0 && bal_bet >= tot_bet + obj.price) {
-        dispatch(setChiptype({ val: obj.val, chiptype: chipSelected }));
-        dispatch(setChipPrice({ val: obj.val, price: obj.price }));
-        totbetcount += obj.price;
-      }
+    let temparr = [];
+    betstackarr.map((Pobj, index) => {
+      Pobj.map((obj, index) => {
+        if (timer > 0 && obj.price > 0 && bal_bet >= tot_bet + obj.price) {
+          totbetcount += obj.price;
+          temparr.push({ val: obj.val, price: obj.price, chip: chipSelected });
+        }
+      });
     });
-    for (let obj in dozenarr) {
-      if (
-        timer > 0 &&
-        dozenarr[obj].price > 0 &&
-        bal_bet >= tot_bet + dozenarr[obj].price
-      ) {
-        dispatch(setchipprice_d([obj, dozenarr[obj].price]));
-        dispatch(setchiptype_d([obj, chipSelected]));
-        totbetcount += dozenarr[obj].price;
-      }
-    }
-    // console.log(totbetcount);
+    dispatch(PlaceBet(temparr));
     dispatch(setTot_bet(tot_bet + totbetcount));
-    const rebetarr = [];
-    arr.map((obj, index) => {
-      let arr = { val: obj.val, price: obj.price };
-      if (obj.price > 0) rebetarr.push(arr);
-    });
-    for (let i in dozenarr) {
-      let item = dozenarr[i];
-
-      let arr = { val: i, price: item.price };
-      if (item.price > 0) rebetarr.push(arr);
-    }
-    dispatch(pushInstance(rebetarr));
   };
   const Rebet = () => {
     let totbetcount = 0;
-    PrevBetArr.map((element, index) => {
-      if (
-        timer > 0 &&
-        element.price > 0 &&
-        bal_bet >= tot_bet + element.price
-      ) {
+    let temparr = [];
+    console.log("prevbet");
+    console.log(PrevBetArr);
+    PrevBetArr?.map((obj, index) => {
+      obj.map((element, index) => {
         totbetcount += element.price;
-        dispatch(setChiptype({ val: element.val, chiptype: chipSelected }));
-        dispatch(setChipPrice({ val: element.val, price: element.price }));
-      }
+        temparr.push(element);
+      });
     });
-    for (let doz in PrevDozenArr) {
-      //console.log(PrevDozenArr[doz]);
-      let obj = PrevDozenArr[doz];
-      if (timer > 0 && bal_bet >= tot_bet + obj.price && obj.price > 0) {
-        dispatch(setchipprice_d([doz, obj.price]));
-        dispatch(setchiptype_d([doz, chipSelected]));
-        totbetcount += obj.price;
-      }
-    }
-    //console.log(PrevBetArr);
+    dispatch(PlaceBet(temparr));
     dispatch(setTot_bet(tot_bet + totbetcount));
-    const rebetarr = [];
-    PrevBetArr.map((obj, index) => {
-      let arr = { val: obj.val, price: obj.price };
-      if (obj.price > 0) rebetarr.push(arr);
-    });
-    for (let i in PrevDozenArr) {
-      let item = PrevDozenArr[i];
-
-      let arr = { val: i, price: item.price };
-      if (item.price > 0) rebetarr.push(arr);
-    }
-    dispatch(pushInstance(rebetarr));
-    //console.log(rebetarr);
   };
   const handleUndo = () => {
-    let Pobj = UndoArr[0]; // obj is also an array so Pobj is an parent array
-    let totbetcountremove = 0;
-    //console.log(Pobj);
-    Pobj.map((obj, index) => {
-      if (obj.price > 0) {
-        //console.log(obj.val);
-        if (isNaN(obj.val)) {
-          //console.log("set");
-          dispatch(setchipprice_d([obj.val, -obj.price]));
-          if (dozenarr[obj.val].price == obj.price) {
-            dispatch(setchiptype_d([obj.val, null]));
-          }
-        } else {
-          const element = arr.find((c) => c.val === obj.val);
-          if (obj.price == element.price)
-            dispatch(setChiptype({ val: obj.val, chiptype: null }));
-          dispatch(setChipPrice({ val: obj.val, price: -obj.price }));
-        }
-      }
-      // console.log(dozenarr[obj.val].price);
-      //console.log(totbetcountremove);
-      totbetcountremove += obj.price;
+    let totreducebet = 0;
+    betstackarr[0].map((element, index) => {
+      totreducebet += element.price;
     });
-    dispatch(popInstance());
-    dispatch(setTot_bet(tot_bet - totbetcountremove));
-    if (UndoArr.length == 0) dispatch(toggleDoubleBet());
-    // console.log(UndoArr);
+    dispatch(setTot_bet(tot_bet - totreducebet));
+    dispatch(RemoveBet());
   };
   return (
     <>
@@ -172,348 +101,206 @@ export default function ChipPanel() {
         }`}
       >
         <div className={style.grid}>
-          {arr.map((chip, index) => (
-            <div
-              onClick={() =>
-                chipSelected !== null ? handleClick(chip.val) : ""
-              }
-              className={
-                chip.val === 0
-                  ? `${style.zerochip} ${style.chipvalues_rotated}`
-                  : chip.val % 2 === 0
-                  ? style.chips2
-                  : style.chips1
-              }
-              key={index}
-            >
-              {chip.chiptype === null ? (
-                <span>{chip.val}</span>
-              ) : (
-                <div className={style.chipscontainer}>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={chip.chiptype}
-                    ></img>
+          {directSet.map((chip, index) => {
+            let obj = null;
+            let TotalPriceOfChip = 0;
+            betstackarr.map((e, index) => {
+              e.map((element, index) => {
+                if (element.val === chip) {
+                  obj = element;
+                  TotalPriceOfChip += element.price;
+                }
+              });
+            });
+            return (
+              <div
+                onClick={() =>
+                  chipSelected !== null && timer > 0 ? handleClick(chip) : ""
+                }
+                className={
+                  chip === 0
+                    ? `${style.zerochip} ${style.chipvalues_rotated}`
+                    : chip % 2 === 0
+                    ? style.chips2
+                    : style.chips1
+                }
+                key={index}
+              >
+                {obj ? (
+                  <div className={style.chipscontainer}>
+                    <div>
+                      <img
+                        className={style.gridchip}
+                        alt=""
+                        src={obj.chip}
+                      ></img>
+                    </div>
+                    <div className={style.chipvalues}>
+                      <span>{TotalPriceOfChip}</span>
+                    </div>
                   </div>
-                  <div className={style.chipvalues}>
-                    <span>{chip.price}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
+                ) : (
+                  <span>{chip}</span>
+                )}
+              </div>
+            );
+          })}
+          {/* multipleselect  */}
+
           <div className={style.street_select}>
-            <div
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("street1") : ""
-              }
-              className={style.text_s}
-            >
-              {dozenarr["street1"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["street1"].chiptype}
-                    ></img>
-                  </div>
-                  <div className={style.chipvalues}>
-                    <span>{dozenarr["street1"].price}</span>
-                  </div>
-                </>
+            {multiset.map((element, index) => {
+              let obj = null;
+              let TotalPriceOfChip = 0;
+              betstackarr.map((cp, index) => {
+                cp.map((c, index) => {
+                  if (c.val === element) {
+                    obj = c;
+                    TotalPriceOfChip += c.price;
+                  }
+                });
+              });
+              return element === "street1" ||
+                element === "street2" ||
+                element === "street3" ? (
+                <div
+                  onClick={() =>
+                    chipSelected !== null ? handleMultiSelectClick(element) : ""
+                  }
+                  className={style.text_s}
+                >
+                  {obj ? (
+                    <>
+                      <div>
+                        <img
+                          className={style.gridchip}
+                          alt=""
+                          src={obj.chip}
+                        ></img>
+                      </div>
+                      <div className={style.chipvalues}>
+                        <span>{TotalPriceOfChip}</span>
+                      </div>
+                    </>
+                  ) : (
+                    <span>2:1</span>
+                  )}
+                </div>
               ) : (
-                <span>2:1</span>
-              )}
-            </div>
-            <div
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("street2") : ""
-              }
-              className={style.text_s}
-            >
-              {dozenarr["street2"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["street2"].chiptype}
-                    ></img>
-                  </div>
-                  <div className={style.chipvalues}>
-                    <span>{dozenarr["street2"].price}</span>
-                  </div>
-                </>
-              ) : (
-                <span>2:1</span>
-              )}
-            </div>
-            <div
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("street3") : ""
-              }
-              className={style.text_s}
-            >
-              {dozenarr["street3"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["street3"].chiptype}
-                    ></img>
-                  </div>
-                  <div className={style.chipvalues}>
-                    <span>{dozenarr["street3"].price}</span>
-                  </div>
-                </>
-              ) : (
-                <span>2:1</span>
-              )}
-            </div>
+                ""
+              );
+            })}
           </div>
           <div className={style.dozen_select}>
-            <div
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("firstDozen") : ""
-              }
-              className={style.text}
-            >
-              {dozenarr["firstDozen"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["firstDozen"].chiptype}
-                    ></img>
-                  </div>
-                  <div
-                    className={`${style.chipvalues} ${style.chipvalues_rotated}`}
-                  >
-                    <span>{dozenarr["firstDozen"].price}</span>
-                  </div>
-                </>
+            {multiset.map((element, index) => {
+              let obj = null;
+              let TotalPriceOfChip = 0;
+              betstackarr.map((cp, index) => {
+                cp.map((c, index) => {
+                  if (c.val === element) {
+                    obj = c;
+                    TotalPriceOfChip += c.price;
+                  }
+                });
+              });
+              return element === "1st 12" ||
+                element === "2nd 12" ||
+                element === "3rd 12" ? (
+                <div
+                  onClick={() =>
+                    chipSelected !== null ? handleMultiSelectClick(element) : ""
+                  }
+                  className={style.text}
+                >
+                  {obj ? (
+                    <>
+                      <div>
+                        <img
+                          className={style.gridchip}
+                          alt=""
+                          src={obj.chip}
+                        ></img>
+                      </div>
+                      <div
+                        className={`${style.chipvalues} ${style.chipvalues_rotated}`}
+                      >
+                        <span>{TotalPriceOfChip}</span>
+                      </div>
+                    </>
+                  ) : (
+                    <span>{element}</span>
+                  )}
+                </div>
               ) : (
-                <span>1st 12</span>
-              )}
-            </div>
-            <div
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("secondDozen") : ""
-              }
-              className={style.text}
-            >
-              {dozenarr["secondDozen"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["secondDozen"].chiptype}
-                    ></img>
-                  </div>
-                  <div
-                    className={`${style.chipvalues} ${style.chipvalues_rotated}`}
-                  >
-                    <span>{dozenarr["secondDozen"].price}</span>
-                  </div>
-                </>
-              ) : (
-                <span>2nd 12</span>
-              )}
-            </div>
-            <div
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("thirdDozen") : ""
-              }
-              className={style.text}
-            >
-              {dozenarr["thirdDozen"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["thirdDozen"].chiptype}
-                    ></img>
-                  </div>
-                  <div
-                    className={`${style.chipvalues} ${style.chipvalues_rotated}`}
-                  >
-                    <span>{dozenarr["thirdDozen"].price}</span>
-                  </div>
-                </>
-              ) : (
-                <span>3rd 12</span>
-              )}
-            </div>
+                ""
+              );
+            })}
           </div>
+          {/* Undo functionality */}
           <div
             className={`${style.rebet} ${
-              UndoArr.length == 0 ? style.fadeimg : ""
+              betstackarr.length == 0 ? style.fadeimg : ""
             }`}
-            onClick={() => (UndoArr.length > 0 ? handleUndo() : "")}
+            onClick={() =>
+              betstackarr.length > 0 && timer > 0 ? handleUndo() : ""
+            }
           >
             <img src={undoimg}></img>
           </div>
-
+          {/* Undo functionality ends */}
           <div className={style.diff_select}>
-            <div
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("firstHalf") : ""
-              }
-              className={style.text}
-            >
-              {dozenarr["firstHalf"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["firstHalf"].chiptype}
-                    ></img>
-                  </div>
-                  <div
-                    className={`${style.chipvalues} ${style.chipvalues_rotated}`}
-                  >
-                    <span>{dozenarr["firstHalf"].price}</span>
-                  </div>
-                </>
+            {multiset.map((element, index) => {
+              let obj = null;
+              let TotalPriceOfChip = 0;
+              betstackarr.map((cp, index) => {
+                cp.map((c, index) => {
+                  if (c.val === element) {
+                    obj = c;
+                    TotalPriceOfChip += c.price;
+                  }
+                });
+              });
+              return element !== "street1" &&
+                element !== "street2" &&
+                element !== "street3" &&
+                element !== "1st 12" &&
+                element != "2nd 12" &&
+                element !== "3rd 12" ? (
+                <div
+                  style={
+                    element === "Red"
+                      ? { backgroundColor: "rgb(179, 15, 15)" }
+                      : element === "Blue"
+                      ? { backgroundColor: "rgb(63, 63, 92)" }
+                      : {}
+                  }
+                  onClick={() =>
+                    chipSelected !== null ? handleMultiSelectClick(element) : ""
+                  }
+                  className={style.text}
+                >
+                  {obj ? (
+                    <>
+                      <div>
+                        <img
+                          className={style.gridchip}
+                          alt=""
+                          src={obj.chip}
+                        ></img>
+                      </div>
+                      <div
+                        className={`${style.chipvalues} ${style.chipvalues_rotated}`}
+                      >
+                        <span>{TotalPriceOfChip}</span>
+                      </div>
+                    </>
+                  ) : (
+                    <span>{element}</span>
+                  )}
+                </div>
               ) : (
-                <span>1-18</span>
-              )}
-            </div>
-            <div
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("Even") : ""
-              }
-              className={style.text}
-            >
-              {dozenarr["Even"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["Even"].chiptype}
-                    ></img>
-                  </div>
-                  <div
-                    className={`${style.chipvalues} ${style.chipvalues_rotated}`}
-                  >
-                    <span>{dozenarr["Even"].price}</span>
-                  </div>
-                </>
-              ) : (
-                <span>Even</span>
-              )}
-            </div>
-            <div
-              style={{ backgroundColor: "rgb(179, 15, 15)" }}
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("Red") : ""
-              }
-              className={style.text}
-            >
-              {dozenarr["Red"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["Red"].chiptype}
-                    ></img>
-                  </div>
-                  <div
-                    className={`${style.chipvalues} ${style.chipvalues_rotated}`}
-                  >
-                    <span>{dozenarr["Red"].price}</span>
-                  </div>
-                </>
-              ) : (
-                <span></span>
-              )}
-            </div>
-            <div
-              style={{ backgroundColor: "rgb(63, 63, 92)" }}
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("Blue") : ""
-              }
-              className={style.text}
-            >
-              {dozenarr["Blue"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["Blue"].chiptype}
-                    ></img>
-                  </div>
-                  <div
-                    className={`${style.chipvalues} ${style.chipvalues_rotated}`}
-                  >
-                    <span>{dozenarr["Blue"].price}</span>
-                  </div>
-                </>
-              ) : (
-                <span></span>
-              )}
-            </div>
-            <div
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("Odd") : ""
-              }
-              className={style.text}
-            >
-              {dozenarr["Odd"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["Odd"].chiptype}
-                    ></img>
-                  </div>
-                  <div
-                    className={`${style.chipvalues} ${style.chipvalues_rotated}`}
-                  >
-                    <span>{dozenarr["Odd"].price}</span>
-                  </div>
-                </>
-              ) : (
-                <span>Odd</span>
-              )}
-            </div>
-            <div
-              onClick={() =>
-                chipSelected !== null ? handleDozenClick("secondHalf") : ""
-              }
-              className={style.text}
-            >
-              {dozenarr["secondHalf"].chiptype !== null ? (
-                <>
-                  <div>
-                    <img
-                      className={style.gridchip}
-                      alt=""
-                      src={dozenarr["secondHalf"].chiptype}
-                    ></img>
-                  </div>
-                  <div
-                    className={`${style.chipvalues} ${style.chipvalues_rotated}`}
-                  >
-                    <span>{dozenarr["secondHalf"].price}</span>
-                  </div>
-                </>
-              ) : (
-                <span>19-36</span>
-              )}
-            </div>
+                ""
+              );
+            })}
           </div>
           <div className={style.rebet}>
             {doublebet ? (
@@ -527,12 +314,12 @@ export default function ChipPanel() {
             ) : (
               <div
                 onClick={
-                  PrevBetArr.length === 0
-                    ? () => {}
-                    : () => {
-                        dispatch(toggleDoubleBet());
+                  PrevBetArr?.length !== 0 && timer > 0
+                    ? () => {
+                        dispatch(toggleDoubleBet(true));
                         Rebet();
                       }
+                    : ""
                 }
                 className={
                   PrevBetArr.length == 0 || timer <= 0 ? style.fadeimg : ""

@@ -5,13 +5,11 @@ import { toggle } from "../../store/slices/chip_Visibility";
 import { toggle as toggledoublebet } from "../../store/slices/doubleBetToggle";
 import { changetime } from "../../store/slices/Timer";
 import { setMsg } from "../../store/slices/GameProgress";
-import { resetPanel } from "../../store/slices/chipPanelArray";
 import { setWinNum } from "../../store/slices/WinningNumber";
-import { resetPanel_d } from "../../store/slices/DozenSelect";
 import { addResult } from "../../store/slices/RecentResult";
 import { copyBet } from "../../store/slices/DuplicatePrevBet";
-import { copyDozenBet } from "../../store/slices/DuplicateDozenBet";
 import { resetUndoArr } from "../../store/slices/UndoArr";
+import { ResetStack } from "../../store/slices/BetstackArray";
 export default function ProgressBar() {
   const dispatch = useDispatch();
   const timer = useSelector((state) => {
@@ -20,7 +18,7 @@ export default function ProgressBar() {
   const randomNum = Math.floor(Math.random() * 37);
   const barMsg = useSelector((state) => state.currMsg);
   const tot_Bet = useSelector((state) => state.tot_bet);
-  const arr = useSelector((state) => state.ChipArr);
+  const betstackarr = useSelector((state) => state.BetStackArray);
   const dozenarr = useSelector((state) => state.dozenArr);
   const doublebet = useSelector((state) => state.doublbet);
   // const winnum = useSelector((state) => state.WinNum);
@@ -32,19 +30,13 @@ export default function ProgressBar() {
       setTimeout(() => {
         dispatch(setMsg("SPINNING"));
         dispatch(setWinNum(randomNum));
-        if (doublebet) {
-          dispatch(toggledoublebet());
-        }
+        dispatch(ResetStack());
         dispatch(resetUndoArr());
         setTimeout(() => {
-          //console.log(arr);
           if (tot_Bet > 0) {
-            dispatch(copyBet(arr));
-            dispatch(copyDozenBet(dozenarr));
+            dispatch(copyBet(betstackarr));
           }
-          dispatch(resetPanel());
           dispatch(addResult(randomNum));
-          dispatch(resetPanel_d());
           dispatch(changetime(15));
           dispatch(setMsg("PLEASE PLACE YOUR BETS -"));
           dispatch(toggle(true));

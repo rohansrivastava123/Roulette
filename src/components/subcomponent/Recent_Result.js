@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CHIPS_ARR } from "./ChipPanel.constant";
 import { setTot_bet } from "../../store/slices/betAmount";
-import { setChipPrice, setChiptype } from "../../store/slices/chipPanelArray";
+import { PlaceBet } from "../../store/slices/BetstackArray";
 import style from "./Recent_Result.module.css";
 export default function Recent_Result() {
   const recentResultArray = useSelector((state) => state.recentResultArray);
@@ -16,12 +16,12 @@ export default function Recent_Result() {
     return state.time;
   });
   const handleClick = (num) => {
-    const obj = CHIPS_ARR.find((c) => c.img === chipSelected);
-    console.log(obj);
-    if (timer > 0 && bal_bet >= tot_bet + obj.price) {
-      dispatch(setTot_bet(tot_bet + obj.price));
-      dispatch(setChiptype({ val: num, chiptype: chipSelected }));
-      dispatch(setChipPrice({ val: num, price: obj.price }));
+    const chipobj = CHIPS_ARR.find((c) => c.img === chipSelected);
+    if (timer > 0 && bal_bet >= tot_bet + chipobj.price) {
+      dispatch(setTot_bet(tot_bet + chipobj.price));
+      dispatch(
+        PlaceBet({ val: num, price: chipobj.price, chip: chipSelected })
+      );
     }
   };
   return (

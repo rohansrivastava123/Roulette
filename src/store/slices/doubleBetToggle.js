@@ -3,8 +3,8 @@ const doublebetToogle = createSlice({
   name: "doubleBetToggle",
   initialState: false,
   reducers: {
-    toggle(state, actions) {
-      return !state;
+    toggle(state, action) {
+      return action.payload;
     },
   },
 });
