@@ -20,7 +20,6 @@ export default function ProgressBar() {
   const betstackarr = useSelector((state) => state.BetStackArray);
   const dozenarr = useSelector((state) => state.dozenArr);
   const doublebet = useSelector((state) => state.doublbet);
-  // const winnum = useSelector((state) => state.WinNum);
 
   useEffect(() => {
     if (timer === 0) {
@@ -76,17 +75,22 @@ export default function ProgressBar() {
                 : "",
           }}
         ></div>
-        <div className={style.msg}>
+        <div
+          style={
+            timer < 7 ? { animation: `${style.blink} 1s linear infinite` } : {}
+          }
+          className={style.msg}
+        >
           {timer === 0 ? (
-            <p className={style.bartext}>{barMsg}</p>
+            barMsg
           ) : timer > 6 ? (
-            <p className={style.bartext}>
+            <>
               {barMsg} {timer}
-            </p>
+            </>
           ) : (
-            <p className={style.bartextblink}>
+            <>
               {barMsg} {timer}
-            </p>
+            </>
           )}
         </div>
       </div>
