@@ -20,7 +20,7 @@ export default function Recent_Result() {
     if (timer > 0 && bal_bet >= tot_bet + chipobj.price) {
       dispatch(setTot_bet(tot_bet + chipobj.price));
       dispatch(
-        PlaceBet({ val: num, price: chipobj.price, chip: chipSelected })
+        PlaceBet([{ val: num, price: chipobj.price, chip: chipSelected }])
       );
     }
   };

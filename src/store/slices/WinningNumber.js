@@ -39,32 +39,42 @@ winNumberMiddleware.startListening({
       arr.find((chip) => chip.val === winnum && chip.price > 0)?.price ?? 0;
     dispatch(setBal_bet(tot_bet - winAmount));
     dispatch(setTot_bet(0));
+    // console.log(winAmount);
+    //check on direct select
+
     //check on dozen
-    arr.map((obj, index) => {
-      if (obj.val == "street1" && winnum % 3 === 0)
-        dispatch(setBal_bet(-4 * obj.price));
-      if (obj.val == "street2" && (winnum - 2) % 3 === 0)
-        dispatch(setBal_bet(-4 * obj.price));
-      if (obj.val == "street3" && (winnum - 1) % 3 === 0)
-        dispatch(setBal_bet(-4 * obj.price));
-      if (obj.val == "1st 12" && winnum >= 1 && winnum <= 12)
-        dispatch(setBal_bet(-3 * obj.price));
-      if (obj.val == "2nd 12" && winnum >= 13 && winnum <= 24)
-        dispatch(setBal_bet(-3 * obj.price));
-      if (obj.val == "3rd 12" && winnum >= 25 && winnum <= 36)
-        dispatch(setBal_bet(-3 * obj.price));
-      if (obj.val == "1-18" && winnum >= 1 && winnum <= 18)
-        dispatch(setBal_bet(-2 * obj.price));
-      if (obj.val == "Even" && winnum % 2 == 0)
-        dispatch(setBal_bet(-2 * obj.price));
-      if (obj.val == "Red" && winnum % 2 != 0)
-        dispatch(setBal_bet(-2 * obj.price));
-      if (obj.val == "Blue" && winnum % 2 == 0)
-        dispatch(setBal_bet(-2 * obj.price));
-      if (obj.val == "Odd" && winnum % 2 != 0)
-        dispatch(setBal_bet(-2 * obj.price));
-      if (obj.val == "19-36" && winnum >= 19 && winnum <= 36)
-        dispatch(setBal_bet(-2 * obj.price));
+    arr.map((Pobj, index) => {
+      Pobj.map((obj, index) => {
+        if (obj.val == winnum) {
+          dispatch(setBal_bet(-10 * obj.price));
+        }
+        if (obj.val == "street1" && winnum % 3 === 0)
+          dispatch(setBal_bet(-4 * obj.price));
+        if (obj.val == "street2" && (winnum - 2) % 3 === 0)
+          dispatch(setBal_bet(-4 * obj.price));
+        if (obj.val == "street3" && (winnum - 1) % 3 === 0)
+          dispatch(setBal_bet(-4 * obj.price));
+        if (obj.val == "1st 12" && winnum >= 1 && winnum <= 12) {
+          console.log("street 1 winnning" + tot_bet);
+          dispatch(setBal_bet(-3 * obj.price));
+        }
+        if (obj.val == "2nd 12" && winnum >= 13 && winnum <= 24)
+          dispatch(setBal_bet(-3 * obj.price));
+        if (obj.val == "3rd 12" && winnum >= 25 && winnum <= 36)
+          dispatch(setBal_bet(-3 * obj.price));
+        if (obj.val == "1-18" && winnum >= 1 && winnum <= 18)
+          dispatch(setBal_bet(-2 * obj.price));
+        if (obj.val == "Even" && winnum % 2 == 0)
+          dispatch(setBal_bet(-2 * obj.price));
+        if (obj.val == "Red" && winnum % 2 != 0)
+          dispatch(setBal_bet(-2 * obj.price));
+        if (obj.val == "Blue" && winnum % 2 == 0)
+          dispatch(setBal_bet(-2 * obj.price));
+        if (obj.val == "Odd" && winnum % 2 != 0)
+          dispatch(setBal_bet(-2 * obj.price));
+        if (obj.val == "19-36" && winnum >= 19 && winnum <= 36)
+          dispatch(setBal_bet(-2 * obj.price));
+      });
     });
   },
 });

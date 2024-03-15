@@ -1,16 +1,23 @@
 .wintext {
   position: absolute;
-  top: 55%;
+  top: -20%;
   text-align: center;
   width: 100%;
   color: white;
-  font-size: 2rem;
+  font-size: 3rem;
+  font-weight: 700;
 }
 .hopcontainer {
   width: 100%;
   text-align: center;
   animation: hop 2s forwards linear;
-  position: relative;
+  position: absolute;
+  top: 0%;
+  display: flex;
+  justify-content: center;
+}
+.bg img {
+  scale: 2.5;
 }
 
 @keyframes hop {
@@ -43,5 +50,8 @@
 @media screen and (max-width: 450px) {
   .bg img {
     display: none;
+  }
+  .wintext {
+    font-size: 2rem;
   }
 }

@@ -77,7 +77,9 @@ export default function ProgressBar() {
         ></div>
         <div
           style={
-            timer < 7 ? { animation: `${style.blink} 1s linear infinite` } : {}
+            timer < 7 && timer !== 0
+              ? { animation: `${style.blink} 1s linear infinite` }
+              : {}
           }
           className={style.msg}
         >

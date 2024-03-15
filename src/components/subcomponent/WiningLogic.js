@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "./WiningLogic.module.css";
-import winbg from "../../images/winmessage.svg";
+import winbg from "../../images/winningwheel.svg";
 import { useSelector, useDispatch } from "react-redux";
 export default function WiningLogic() {
   const winnum = useSelector((state) => state.WinNum);
