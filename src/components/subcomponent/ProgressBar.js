@@ -22,48 +22,35 @@ export default function ProgressBar() {
   const doublebet = useSelector((state) => state.doublbet);
 
   useEffect(() => {
-  const intervalId = setInterval(() => {
-    dispatch(changetime(prev => {
-      const newTime = prev - 1;
-
-      if (newTime === 0) {
-        dispatch(toggle(false));
-        dispatch(setMsg("BETS CLOSED"));
-
-        // Step 1: After 1s - Show "SPINNING"
-        setTimeout(() => {
-          dispatch(setMsg("SPINNING"));
-        }, 1000);
-
-        // Step 2: After 3s - Show result and reset
+    if (timer === 0) {
+      dispatch(toggle(false));
+      dispatch(setMsg("BETS CLOSED"));
+      setTimeout(() => {
+        dispatch(setMsg("SPINNING"));
+        dispatch(setWinNum(randomNum));
+        dispatch(ResetStack());
         setTimeout(() => {
           if (tot_Bet > 0) {
             dispatch(copyBet(betstackarr));
           }
           dispatch(addResult(randomNum));
-          dispatch(setMsg(`Result - ${randomNum}`));
-          dispatch(setWinNum(randomNum));
-          dispatch(ResetStack());
-        }, 3000);
-
-        // Step 3: After 5s - Restart round
-        setTimeout(() => {
           dispatch(changetime(15));
           dispatch(setMsg("PLEASE PLACE YOUR BETS -"));
           dispatch(toggle(true));
         }, 5000);
-      }
+      }, 3000);
 
-      if (newTime === 7) {
+      return;
+    }
+
+    const intervalId = setInterval(() => {
+      dispatch(changetime(timer - 1));
+      if (timer === 7) {
         dispatch(setMsg("LAST BETS - "));
       }
-
-      return newTime;
-    }));
-  }, 1000);
-
-  return () => clearInterval(intervalId);
-}, [dispatch, randomNum, tot_Bet, betstackarr]);
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [timer]);
 
 
   const timerPercentage = (timer / 15) * 100;
